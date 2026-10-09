@@ -1,5 +1,9 @@
 # Deep Hedging in a Heston Market
 
+$$
+J^{\ast} = \max_{x \in X} f(x)
+$$
+
 This repository implements the Deep Hedging algorithm (see [Buh01]), which hedges a short position in a European call through reinforcement learning.
 
 The synthetic market environment follows Heston's stochastic volatility model, where at each rebalancing step the hedge quantities of stock and idealized variance swap are estimated by deep feed forward neural networks (DFNNs), such that an Optimized Certainty Equivalent (OCE) of a CVaR loss function is minimized.
