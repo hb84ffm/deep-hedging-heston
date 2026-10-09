@@ -523,7 +523,10 @@ where $[\,\cdot\,]_1, [\,\cdot\,]_2$ select the first and second output componen
         - compute statistics over paths currently processed together via $\mu_r \;=\; \frac{1}{N}\sum_{m=1}^{N} z^m_r$ and  $s^2_r \;=\; \frac{1}{N}\sum_{m=1}^{N} \bigl(z^m_r - \mu_r\bigr)^2$
         
         - for $m = 1, \ldots, N$ apply
-          $$\mathrm{BN}(z)^m_r \;=\; \gamma_r\,\frac{z^m_r - \mu_r}{\sqrt{s^2_r + \epsilon}} \;+\; \beta_r$$
+          
+          $$
+          \mathrm{BN}(z)^m_r \;=\; \gamma_r\,\frac{z^m_r - \mu_r}{\sqrt{s^2_r + \epsilon}} \;+\; \beta_r
+          $$
 
 - where $\gamma_r, \beta_r$ are learnable scale and shift, separate for each of the two normalizations, and $N$ here is the number of paths currently processed together (the mini-batch of $B=256$ during training and calibration, the full validation set during the $J_{\mathrm{val}}$ measurement).
 
