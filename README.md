@@ -74,7 +74,7 @@ There are two ways to obtain a model.
 
 ```python
 from deep_hedging_heston import DeepHedger
-dh = DeepHedger.load_model("ml_models", "heston_30d_alpha_50") # load the model
+dh = DeepHedger.load_model("ml_models", "heston_30d_alpha_50") # load the model, make sure you set the correct path to where the model is stored
 dh.experiment(seed=4) # runs the experiment, where seed=4 is the reference experiment from [Buh01] with terminal errors -1.0672 (analytical) / -1.0272 (ML)
 ```
 
