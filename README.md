@@ -28,7 +28,7 @@ The repository provides an end-to-end pipeline across market simulation, pricing
      - Minimization of loss $J$ as OCE representation of CVaR (due to non-differentiability of CVaR)
   - **Joint training** of all DFNNs and the OCE threshold $w$, with Adam optimizer
   - **Automatic BatchNorm calibration** at the end of training
-  - **Evaluation of hedging quality** via $J$  $J^\ast$, sorted CVaR, $w$-vs-VaR check and indifference price $p_0 = q + J^*$
+  - **Evaluation of hedging quality** via $J^\ast$, sorted CVaR, $w$-vs-VaR check and indifference price $p_0 = q + J^\ast$
 - **One-command experiments:** to create market scenario, plot charts of market, strategies, PnL, terminal error for ML hedge vs analytical estimations and learning curves
 - **Easy design & training of new models** via three parameter blocks (`HestonParameters`, `TrainingParameters`, `DFNNParameters`) with paper defaults as fallback
 - **Easy save and load and use** of newly trained models
@@ -163,8 +163,8 @@ The shipped model `heston_30d_alpha_50` reproduces the Heston-reference experime
 | Quantity | This repository | Paper [Buh01] |
 |---|---|---|
 | Risk-neutral premium $q$ | 1.6918 | 1.69 |
-| Validation $p_0 = q + J^*$ | 1.9693 | 1.94 |
-| Out-of-sample $J^*$ / $p_0$ | 0.2747 / 1.9666 | — |
+| Validation $p_0 = q + J^\ast$ | 1.9693 | 1.94 |
+| Out-of-sample $J^\ast$ / $p_0$ | 0.2747 / 1.9666 | — |
 | Model hedge (validation), std / sorted CVaR | 0.3808 / 0.2433 | — |
 | Experiment seed 4: terminal error analytical / ML | −1.0672 / −1.0272 | — |
 
@@ -182,7 +182,7 @@ Trading occurs at discrete timesteps $t_k=k \cdot \mathrm{d}t$ with $\mathrm{d}t
 
 Rather than minimizing $\varepsilon$, risk is measured via the CVaR-loss at level $\alpha \in [0, 1)$. To further optimize the gradient estimation, the OCE representation of CVaR is used, to yield $$J(\delta, w)=w + \frac{1}{1-\alpha}\,\mathbb{E}\Big[\max\Big\{-\Big(q-Z +\sum_{k=0}^{n-1} \Bigl( \delta^1_k \cdot (S^1_{k+1}-S^1_k)+\delta^2_k \cdot (S^2_{k+1}-S^2_k)\Bigr)\Big) - w,\; 0\Big\}\Big]$$
 
-The optimization problem then results in finding  $J^*$, the minimal achievable CVaR-based residual hedging risk over all admissible hedging strategies, given by $$J^*=\inf_{\delta, w}J(\delta,w) $$ 
+The optimization problem then results in finding  $J^\ast$, the minimal achievable CVaR-based residual hedging risk over all admissible hedging strategies, given by $$J^\ast=\inf_{\delta, w}J(\delta,w) $$ 
 
 ### 7.2 Heston market
 
@@ -253,12 +253,12 @@ Since $(S_t^1,V_t)$ is Markov, the optimization is restricted to depend on curre
 
 **REDUCTION 2, DFNNS:** 
 
-Each $f_k$ is then approximated by a DFNN $F_{\theta_k}$ with network layers $\ell = 1, \dots, L$ and using input $x_0 = (\ln s, v)$ to compute $$x_\ell \;=\; \underbrace{\sigma\bigl(A_\ell\, x_{\ell-1} + b_\ell\bigr)}_{\text{hidden layers}}$$ $$F_{\theta_k}(x_0) \;=\; \underbrace{A_L\, x_{L-1} + b_L}_{\text{linear output: } (\delta^1_k, \delta^2_k)}$$ where each $A_\ell$ is a weight matrix, $b_\ell$ a bias vector and $\sigma$ a nonlinear activation applied componentwise and given by $\sigma(x) = \max(x, 0)$. The parametrized strategy is then $$\delta^{\theta}_k \;=\; F_{\theta_k}(\ln S^1_k, V_k)$$ where $\theta$ collects the weights of all $n$ networks. Substituting $\delta^{\theta}$ into the loss of 7.1 yields $$J(\theta, w) \;=\; w + \frac{1}{1-\alpha}\,\mathbb{E}\Big[\max\big\{-\varepsilon(\delta^{\theta}) - w,\; 0\big\}\Big]$$ with $$J^* \;=\; \inf_{\theta,\, w}\, J(\theta, w)$$  This turns the optimization over the infinite-dimensional space of admissible hedging strategies to a finite-dimensional optimization over $\theta$ and $w$. This makes the problem computationally tractable.
+Each $f_k$ is then approximated by a DFNN $F_{\theta_k}$ with network layers $\ell = 1, \dots, L$ and using input $x_0 = (\ln s, v)$ to compute $$x_\ell \;=\; \underbrace{\sigma\bigl(A_\ell\, x_{\ell-1} + b_\ell\bigr)}_{\text{hidden layers}}$$ $$F_{\theta_k}(x_0) \;=\; \underbrace{A_L\, x_{L-1} + b_L}_{\text{linear output: } (\delta^1_k, \delta^2_k)}$$ where each $A_\ell$ is a weight matrix, $b_\ell$ a bias vector and $\sigma$ a nonlinear activation applied componentwise and given by $\sigma(x) = \max(x, 0)$. The parametrized strategy is then $$\delta^{\theta}_k \;=\; F_{\theta_k}(\ln S^1_k, V_k)$$ where $\theta$ collects the weights of all $n$ networks. Substituting $\delta^{\theta}$ into the loss of 7.1 yields $$J(\theta, w) \;=\; w + \frac{1}{1-\alpha}\,\mathbb{E}\Big[\max\big\{-\varepsilon(\delta^{\theta}) - w,\; 0\big\}\Big]$$ with $$J^\ast \;=\; \inf_{\theta,\, w}\, J(\theta, w)$$  This turns the optimization over the infinite-dimensional space of admissible hedging strategies to a finite-dimensional optimization over $\theta$ and $w$. This makes the problem computationally tractable.
 
 
 **WHY THE REDUCTIONS ARE SOUND:** 
 
-The DFNNs approximate the Markov strategy functions $f_k$ arbitrarily well as their capacity increases  (see [Hor91]). Therefore, the computed values for $J(\theta,w)$ converge (in the limit) to the optimal value $J^*$ (see [Buh01, Proposition 4.9]). Hence optimizing the DFNN parameters provides an approximation of the optimal strategy up to an arbitrarily small error value.
+The DFNNs approximate the Markov strategy functions $f_k$ arbitrarily well as their capacity increases  (see [Hor91]). Therefore, the computed values for $J(\theta,w)$ converge (in the limit) to the optimal value $J^\ast$ (see [Buh01, Proposition 4.9]). Hence optimizing the DFNN parameters provides an approximation of the optimal strategy up to an arbitrarily small error value.
 
 
 
@@ -268,7 +268,7 @@ The expectation in $J$ is estimated on synthetic market paths (Section 7.4). It 
 
 **What enters the training.** Only (simulated) paths for $(\log (S_t^1), V_t)$ and their resulting $\varepsilon(\delta^{\theta})$, neither pricing model nor greeks are used. The pricing machinery of 7.3 is only used for benchmarking, this means calculating the model-delta hedge against which the ML hedge is evaluated.
 
-**What comes out.** After training, the output is the learned hedge $\delta^{\theta^*}$, whose loss approximates the minimal $J^*$ (residual risk after collecting the premium $q$). The associated risk-adjusted price is then $p_0 = q + J^*$ (by Proposition 3.10(ii) of [Buh01], $p_0 \ge q$).
+**What comes out.** After training, the output is the learned hedge $\delta^{\theta^*}$, whose loss approximates the minimal $J^\ast$ (residual risk after collecting the premium $q$). The associated risk-adjusted price is then $p_0 = q + J^\ast$ (by Proposition 3.10(ii) of [Buh01], $p_0 \ge q$).
 ### 7.6 Settings, synthetic data simulation and algorithm
 In this section we outline **our** implementation, which includes model assumptions, parameter definition, path simulation, network architecture, computational graph design, training loop and validation. We closely follow the design in [Buh01].
 
@@ -437,12 +437,12 @@ All parameters are fixed before simulation, training and validation. Defaults fo
         - compute terminal hedging error, with the ML holdings of the forward pass over $\mathcal D$: $\varepsilon^m = q-Z^m+\sum_{k=0}^{n-1} \left[\delta^{1,m}_k \bigl(S^{1,m}_{k+1}-S^{1,m}_k\bigr) + \delta^{2,m}_k \bigl(S^{2,m}_{k+1}-S^{2,m}_k\bigr) \right]$
         - set $L^m=-\varepsilon^m$
     - compute mean and standard deviation of $\{\varepsilon^m\}_{m=1}^{N}$ 
-    - compute approximations of OCE objective $J^* = w^*+ \frac{1}{1-\alpha} \frac{1}{N} \sum_{m=1}^{N} \max(L^m-w^*,0)$ 
+    - compute approximations of OCE objective $J^\ast = w^\ast+ \frac{1}{1-\alpha} \frac{1}{N} \sum_{m=1}^{N} \max(L^m-w^*,0)$ 
     - sort the losses $L^{(1)}\ge L^{(2)}\ge\cdots\ge L^{(N)}$
     - compute empirical sorted CVaR $\widehat{\mathrm{CVaR}}_\alpha = \frac{1}{\lfloor(1-\alpha)N\rfloor} \sum_{i=1}^{\lfloor(1-\alpha)N\rfloor}L^{(i)}$
     - compute empirical VaR $\widehat{\mathrm{VaR}}_\alpha = \inf \left\{ x: \frac{1}{N} \#\{m:L^m\le x\} \ge\alpha \right\}$
     - compare $w^*$ with $\widehat{\mathrm{VaR}}_\alpha$ 
-    - compute the risk-adjusted price $p_0=q+J^*$ 
+    - compute the risk-adjusted price $p_0=q+J^\ast$ 
 **10. Benchmarking of ML model VS analytical estimates**
 
 **ANALYTICAL BENCHMARK** (on $\mathcal D^{\mathrm{val}}$):
