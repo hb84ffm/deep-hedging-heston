@@ -1,9 +1,5 @@
 # Deep Hedging in a Heston Market
 
-$$ 
-J(\delta, w)=w + \frac{1}{1-\alpha}\mathbb{E} [\max \lbrace -(q-Z +\sum_{k=0}^{n-1} (\delta^1_k \cdot (S^1_{k+1}-S^1_k)+\delta^2_k \cdot (S^2_{k+1}-S^2_k))) - w, 0\rbrace] 
-$$
-
 This repository implements the Deep Hedging algorithm (see [Buh01]), which hedges a short position in a European call through reinforcement learning.
 
 The synthetic market environment follows Heston's stochastic volatility model, where at each rebalancing step the hedge quantities of stock and idealized variance swap are estimated by deep feed forward neural networks (DFNNs), such that an Optimized Certainty Equivalent (OCE) of a CVaR loss function is minimized.
@@ -193,8 +189,8 @@ $$
 Rather than minimizing $\varepsilon$, risk is measured via the CVaR-loss at level $\alpha \in [0, 1)$. To further optimize the gradient estimation, the OCE representation of CVaR is used, to yield 
 
 
-$$
-J(\delta, w)=w + \frac{1}{1-\alpha}\mathbb{E} [\max \lbrace -(q-Z +\sum_{k=0}^{n-1} (\delta^1_k \cdot (S^1_{k+1}-S^1_k)+\delta^2_k \cdot (S^2_{k+1}-S^2_k))) - w, 0\right \rbrace]
+$$ 
+J(\delta, w)=w + \frac{1}{1-\alpha}\mathbb{E} [\max \lbrace -(q-Z +\sum_{k=0}^{n-1} (\delta^1_k \cdot (S^1_{k+1}-S^1_k)+\delta^2_k \cdot (S^2_{k+1}-S^2_k))) - w, 0\rbrace] 
 $$
 
 The optimization problem then results in finding $J^\ast$, the minimal achievable CVaR-based residual hedging risk over all admissible hedging strategies, given by 
