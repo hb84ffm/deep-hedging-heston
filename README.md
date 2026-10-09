@@ -180,17 +180,13 @@ Consider a Heston market driven by two stochastic processes, $S_t^1$ (stock) and
 
 Trading occurs at discrete timesteps $t_k=k \cdot \mathrm{d}t$ with $\mathrm{d}t=T/n$ for $k=0,\ldots,n-1$, where at each timestep the positions $\delta_k=(\delta^1_k,\delta^2_k)$ are chosen and held until next rebalancing date, to hedge the liability. The strategy is assumed to be self-financing (no external cash flows after premium received!), which yields the terminal hedging error $\varepsilon$ by 
 
+$\varepsilon(\delta):=\underbrace{q}_{\text{premium}}$
 
 $$
 \varepsilon(\delta):=\underbrace{q}_{\text{premium}}-\underbrace{Z}_{\text{payoff}} +\sum_{k=0}^{n-1} \Bigl( \underbrace{\delta^1_k}_{\text{quantity}} \cdot \underbrace{(S^1_{k+1}-S^1_k)}_{\text{stock change}}+\underbrace{\delta^2_k}_{\text{quantity}} \cdot \underbrace{(S^2_{k+1}-S^2_k)}_{\text{VS change}}\Bigr)
 $$
 
 Rather than minimizing $\varepsilon$, risk is measured via the CVaR-loss at level $\alpha \in [0, 1)$. To further optimize the gradient estimation, the OCE representation of CVaR is used, to yield 
-
-$$
-J(\delta, w)=w + \frac{1}{1-\alpha}\,\mathbb{E}\Bigl[\max\Bigl\{-\Bigl(q-Z +\sum_{k=0}^{n-1} \Bigl(\delta^1_k \cdot (S^1_{k+1}-S^1_k)+\delta^2_k \cdot (S^2_{k+1}-S^2_k)\Bigr)\Bigr) - w,\; 0\Bigr\}\Bigr]
-$$
-
 
 $$
 J(\delta, w)=w + \frac{1}{1-\alpha}\,\mathbb{E}\Big[\max\Big\{-\Big(q-Z +\sum_{k=0}^{n-1} \Bigl(\delta^1_k \cdot (S^1_{k+1}-S^1_k)+\delta^2_k \cdot (S^2_{k+1}-S^2_k)\Bigr)\Big) - w,\; 0\Big\}\Big]
