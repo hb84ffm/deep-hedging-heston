@@ -1,6 +1,6 @@
 # Deep Hedging in a Heston Market
 
-$left\{abc\right}$
+$Big\{abc\Big}$
 
 This repository implements the Deep Hedging algorithm (see [Buh01]), which hedges a short position in a European call through reinforcement learning.
 
