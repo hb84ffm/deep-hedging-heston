@@ -461,3 +461,4 @@ All parameters are fixed before simulation, training and validation. Defaults fo
 - [FangOosterlee08] Fang, Oosterlee: *A Novel Pricing Method for European Options Based on Fourier-Cosine Series Expansions* 
 - [Sey15] Seydel: Tools for Computational Finance
 - [Hor91] Hornik, Stinchcombe, White: *Multilayer feedforward networks are universal approximators.*
+- [KB15] Kingma, Ba: *Adam: A Method for Stochastic Optimization*
