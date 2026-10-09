@@ -1,9 +1,5 @@
 # Deep Hedging in a Heston Market
 
-$$
-J^{\ast} = \max_{x \in X} f(x)
-$$
-
 This repository implements the Deep Hedging algorithm (see [Buh01]), which hedges a short position in a European call through reinforcement learning.
 
 The synthetic market environment follows Heston's stochastic volatility model, where at each rebalancing step the hedge quantities of stock and idealized variance swap are estimated by deep feed forward neural networks (DFNNs), such that an Optimized Certainty Equivalent (OCE) of a CVaR loss function is minimized.
@@ -183,6 +179,7 @@ In this section we outline the problem statement, give a short intro to the Hest
 Consider a Heston market driven by two stochastic processes, $S_t^1$ (stock) and $V_t$ (variance). At $t=0$ a European call is sold for premium $q$, while at $t=T$ the payoff $Z:=\text{max}\{S_T^1-K,0\}$ must be delivered. Since $S_T^1:\Omega\to\mathbb{R_{+}}$ is a random variable, the liability from $Z$ is uncertain and must be hedged by trading in $S_t^1$ and in an idealized variance swap $S_t^2$ (since $V_t$ is not tradeable!).
 
 Trading occurs at discrete timesteps $t_k=k \cdot \mathrm{d}t$ with $\mathrm{d}t=T/n$ for $k=0,\ldots,n-1$, where at each timestep the positions $\delta_k=(\delta^1_k,\delta^2_k)$ are chosen and held until next rebalancing date, to hedge the liability. The strategy is assumed to be self-financing (no external cash flows after premium received!), which yields the terminal hedging error $\varepsilon$ by 
+
 $$
 \varepsilon(\delta):=\underbrace{q}_{\text{premium}}-\underbrace{Z}_{\text{payoff}} +\sum_{k=0}^{n-1} \Bigl( \underbrace{\delta^1_k}_{\text{quantity}} \cdot \underbrace{(S^1_{k+1}-S^1_k)}_{\text{stock change}}+\underbrace{\delta^2_k}_{\text{quantity}} \cdot \underbrace{(S^2_{k+1}-S^2_k)}_{\text{VS change}}\Bigr)
 $$
