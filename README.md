@@ -268,7 +268,7 @@ The expectation in $J$ is estimated on synthetic market paths (Section 7.4). It 
 
 **What enters the training.** Only (simulated) paths for $(\log (S_t^1), V_t)$ and their resulting $\varepsilon(\delta^{\theta})$, neither pricing model nor greeks are used. The pricing machinery of 7.3 is only used for benchmarking, this means calculating the model-delta hedge against which the ML hedge is evaluated.
 
-**What comes out.** After training, the output is the learned hedge $\delta^{\theta^*}$, whose loss approximates the minimal $J^\ast$ (residual risk after collecting the premium $q$). The associated risk-adjusted price is then $p_0 = q + J^\ast$ (by Proposition 3.10(ii) of [Buh01], $p_0 \ge q$).
+**What comes out.** After training, the output is the learned hedge $\delta^{\theta^\ast}$, whose loss approximates the minimal $J^\ast$ (residual risk after collecting the premium $q$). The associated risk-adjusted price is then $p_0 = q + J^\ast$ (by Proposition 3.10(ii) of [Buh01], $p_0 \ge q$).
 ### 7.6 Settings, synthetic data simulation and algorithm
 In this section we outline **our** implementation, which includes model assumptions, parameter definition, path simulation, network architecture, computational graph design, training loop and validation. We closely follow the design in [Buh01].
 
@@ -437,11 +437,11 @@ All parameters are fixed before simulation, training and validation. Defaults fo
         - compute terminal hedging error, with the ML holdings of the forward pass over $\mathcal D$: $\varepsilon^m = q-Z^m+\sum_{k=0}^{n-1} \left[\delta^{1,m}_k \bigl(S^{1,m}_{k+1}-S^{1,m}_k\bigr) + \delta^{2,m}_k \bigl(S^{2,m}_{k+1}-S^{2,m}_k\bigr) \right]$
         - set $L^m=-\varepsilon^m$
     - compute mean and standard deviation of $\{\varepsilon^m\}_{m=1}^{N}$ 
-    - compute approximations of OCE objective $J^\ast = w^\ast+ \frac{1}{1-\alpha} \frac{1}{N} \sum_{m=1}^{N} \max(L^m-w^*,0)$ 
+    - compute approximations of OCE objective $J^\ast = w^\ast+ \frac{1}{1-\alpha} \frac{1}{N} \sum_{m=1}^{N} \max(L^m-w^\ast,0)$ 
     - sort the losses $L^{(1)}\ge L^{(2)}\ge\cdots\ge L^{(N)}$
     - compute empirical sorted CVaR $\widehat{\mathrm{CVaR}}_\alpha = \frac{1}{\lfloor(1-\alpha)N\rfloor} \sum_{i=1}^{\lfloor(1-\alpha)N\rfloor}L^{(i)}$
     - compute empirical VaR $\widehat{\mathrm{VaR}}_\alpha = \inf \left\{ x: \frac{1}{N} \#\{m:L^m\le x\} \ge\alpha \right\}$
-    - compare $w^*$ with $\widehat{\mathrm{VaR}}_\alpha$ 
+    - compare $w^\ast$ with $\widehat{\mathrm{VaR}}_\alpha$ 
     - compute the risk-adjusted price $p_0=q+J^\ast$ 
 **10. Benchmarking of ML model VS analytical estimates**
 
