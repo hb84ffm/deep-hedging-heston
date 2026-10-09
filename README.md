@@ -457,7 +457,7 @@ The DFNNs approximate the Markov strategy functions $f_k$ arbitrarily well as th
 The expectation in $J$ is estimated on synthetic market paths (Section 7.4). It is replaced by the average over a mini-batch of $B$ scenarios randomly drawn from the (simulated) training set 
 
 $$
-J_B(\theta, w)= w + \frac{1}{1-\alpha} \underbrace{\frac{1}{B}\sum_{m=1}^{B}}_{\text{average over } B \text{ paths}} \max\bigl\{-\varepsilon\bigl(\omega_m\bigr) - w, 0\bigr\}
+J_B(\theta, w)= w + \frac{1}{1-\alpha} \underbrace{\frac{1}{B}\sum_{m=1}^{B}}_{\text{average over } B \text{ paths}} \max\{-\varepsilon(\omega_m) - w, 0\}
 $$  
 
 where $\omega_1, \dots, \omega_B$ are the drawn market scenarios and $\varepsilon(\omega_m)$ the terminal hedging error of strategy $\delta^{\theta}$ on scenario $\omega_m$. Because this objective is built from differentiable operations, its gradients are well defined, hence backpropagation applicable and stochastic gradient descent (Adam [KB15]) updates $\theta$ and $w$.
