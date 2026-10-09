@@ -1,10 +1,6 @@
 # Deep Hedging in a Heston Market
 
-$f(x)=
-\begin{cases}
-x^2 & \text{wenn } x>0,\\
-0 & \text{wenn } x\leq 0.
-\end{cases}$
+$\{abc\}$
 
 This repository implements the Deep Hedging algorithm (see [Buh01]), which hedges a short position in a European call through reinforcement learning.
 
