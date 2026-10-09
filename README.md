@@ -456,7 +456,7 @@ The DFNNs approximate the Markov strategy functions $f_k$ arbitrarily well as th
 
 The expectation in $J$ is estimated on synthetic market paths (Section 7.4). It is replaced by the average over a mini-batch of $B$ scenarios randomly drawn from the (simulated) training set 
 
-$$
+$$FEHLER!
 J_B(\theta, w)= w + \frac{1}{1-\alpha} \underbrace{\frac{1}{B}\sum_{m=1}^{B}}_{\text{average over } B \text{ paths}} \max\{-\varepsilon(\omega_m) - w, 0\}
 $$  
 
