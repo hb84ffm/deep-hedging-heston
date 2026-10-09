@@ -538,7 +538,8 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
 - Adam optimizer with learning rate $0.005$ 
 - Batch size $B = 256$ paths per gradient step
 - Number of gradient steps: $200000$, logged every $5000$ steps
-- Weights $A^k_j$ are randomly initialized (Glorot uniform, controlled by TensorFlow seed), biases start at $b^k_j=0$ and batch-normalization parameters at $\gamma_r=1$, $\beta_r=0$ 
+- Weights $A^k_j$ are randomly initialized (Glorot uniform, controlled by TensorFlow seed), biases start at $b^k_j=0$ and batch-normalization parameters at $\gamma_r=1$, $\beta_r=0$
+
 **7. Premium computation** 
 - Via Fang-Oosterlee pricer (see 7.3) calculate model premium $q = u(0, S_0^1, V_0)$ and save it
 
@@ -572,7 +573,7 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
 - for $m=1,\ldots,N$:
     - for $k=0,\ldots,n-1$:
         - draw one shock $G^m_k\sim N(0,1)$
-        - update $\ln S^{1,m}_{k+1}= \ln S^{1,m}_k + \frac{\rho}{\xi}\left( V^m_{k+1}-V^m_k-\kappa\theta_{par}\mathrm{d}t+\kappa I^m_k\right) -\frac12 I^m_k+\sqrt{(1-\rho^2)I^m_k} G^m_k$
+        - update $\ln S^{1,m}_{k+1}=\ln S^{1,m}_k + \frac{\rho}{\xi}\left( V^m_{k+1}-V^m_k-\kappa\theta_{par}\mathrm{d}t+\kappa I^m_k\right) -\frac12 I^m_k+\sqrt{(1-\rho^2)I^m_k} G^m_k$
 
 **EXPONENTIATE**:
 - for $k=0,\ldots,n$:
@@ -582,7 +583,7 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
 **VARIANCE SWAP**:
 - for $k=0,\ldots,n$:
     - for $m=1,\ldots,N$:
-        - set $\tau_k=T-k\,\mathrm{d}t$
+        - set $\tau_k=T-k\mathrm{d}t$
         - compute $L(t_k,V^m_k) = \frac{V^m_k-\theta_{par}}{\kappa} (1-e^{-\kappa\tau_k}) +\theta_{par}\tau_k$
         - compute $S^{2,m}_k=A^m_k+L(t_k,V^m_k)$
 
@@ -613,7 +614,7 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
     - select the next mini-batch and denote its paths by $b=1,\ldots,B$ 
     - for $k=0,\ldots,n-1$:
         - compute the holdings $(\delta^{1,b}_k,\delta^{2,b}_k)= F_{\theta_k}
-          \bigl(\ln S^{1,b}_k,V^b_k\bigr)$ 
+          (\ln S^{1,b}_k,V^b_k)$ 
     - for $b=1,\ldots,B$:
         - compute the terminal hedging error $\varepsilon^b =q-Z^b+ \sum_{k=0}^{n-1}\left[\delta^{1,b}_k \bigl(S^{1,b}_{k+1}-S^{1,b}_k\bigr) + \delta^{2,b}_k \bigl(S^{2,b}_{k+1}-S^{2,b}_k\bigr) \right]$
         - set $L^b=-\varepsilon^b$ 
@@ -646,7 +647,7 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
     - compute empirical VaR $\widehat{\mathrm{VaR}}_\alpha = \inf \left\{ x: \frac{1}{N} \#\{m:L^m\le x\} \ge\alpha \right\}$
     - compare $w^\ast$ with $\widehat{\mathrm{VaR}}_\alpha$ 
     - compute the risk-adjusted price $p_0=q+J^\ast$
-    - 
+      
 **10. Benchmarking of ML model VS analytical estimates**
 
 **ANALYTICAL BENCHMARK** (on $\mathcal D^{\mathrm{val}}$):
@@ -655,9 +656,8 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
     - for $m=1,\ldots,N$:
         - evaluate $\delta^{1,m}_k = \partial_su \bigl(t_k,S^{1,m}_k,V^m_k\bigr)$ and 
           $\delta^{2,m}_k = \frac{ \partial_vu \bigl(t_k,S^{1,m}_k,V^m_k\bigr)}{ \partial_vL \bigl(t_k,V^m_k\bigr)}$ 
-- compute model-hedge error $\varepsilon^m_{\mathrm{model}}= q-Z^m+\sum_{k=0}^{n-1} \left[\delta^{1,m}_k \bigl(S^{1,m}_{k+1}-S^{1,m}_k\bigr) + \delta^{2,m}_k \bigl(S^{2,m}_{k+1}-S^{2,m}_k\bigr) \right]$
-- report the mean, standard deviation and sorted
-  $\mathrm{CVaR}_\alpha$ of $\{\varepsilon^m_{\mathrm{model}}\}_{m=1}^{N}$
+- compute modelhedge error $\varepsilon^m_{\mathrm{model}}= q-Z^m+\sum_{k=0}^{n-1} \left[\delta^{1,m}_k \bigl(S^{1,m}_{k+1}-S^{1,m}_k\bigr) + \delta^{2,m}_k \bigl(S^{2,m}_{k+1}-S^{2,m}_k\bigr) \right]$
+- report the mean, standard deviation and sorted $\mathrm{CVaR}_\alpha$ of $\{\varepsilon^m_{\mathrm{model}}\}_{m=1}^{N}$
   
 ## 8. Sources
 
