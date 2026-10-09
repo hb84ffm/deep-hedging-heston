@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "deep-hedging-heston"
+version = "0.1.0"
+description = "Deep Hedging (Buehler et al.) of an EU call in a Heston market: stock + variance swap."
+requires-python = ">=3.10"
+dependencies = ["numpy", "tensorflow", "matplotlib"]
+
+[tool.setuptools]
+packages = ["deep_hedging_heston"]
