@@ -434,7 +434,7 @@ $$
 where $\theta$ collects the weights of all $n$ networks. Substituting $\delta^{\theta}$ into the loss of 7.1 yields 
 
 $$
-J(\theta, w) = w + \frac{1}{1-\alpha} \mathbb{E}\Bigl[\max\big\{-\varepsilon(\delta^{\theta}) - w, 0\big\}\Bigr]
+J(\theta, w) = w + \frac{1}{1-\alpha} \mathbb{E}[\max\big\{-\varepsilon(\delta^{\theta}) - w, 0\big\}]
 $$ 
 
 with 
