@@ -1,7 +1,5 @@
 # Deep Hedging in a Heston Market
 
-$\ln(a)$
-
 This repository implements the Deep Hedging algorithm (see [Buh01]), which hedges a short position in a European call through reinforcement learning.
 
 The synthetic market environment follows Heston's stochastic volatility model, where at each rebalancing step the hedge quantities of stock and idealized variance swap are estimated by deep feed forward neural networks (DFNNs), such that an Optimized Certainty Equivalent (OCE) of a CVaR loss function is minimized.
@@ -267,15 +265,15 @@ To compute $u$ and its partial derivatives we use the Fourier-cosine expansion o
 The truncated log-stock interval in our implementation is chosen as (see [Sey15]) 
 
 $$
-h = 10\sqrt{v\tau} + \bigl|\ln s - \ln K\bigr|
+h = 10\sqrt{v\tau} + \bigl|\ln(s) - \ln( K)\bigr|
 $$ 
 
 $$
-a = \ln s - h
+a = \ln (s - h)
 $$ 
 
 $$
-b = \ln s + h
+b = \ln (s + h)
 $$ 
 
 On this interval the price is the cosine series 
