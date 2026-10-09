@@ -174,6 +174,7 @@ The shipped model `heston_30d_alpha_50` reproduces the Heston-reference experime
 ## 7. Methodology and implementation
 
 In this section we outline the problem statement, give a short intro to the Heston model, explain the Deep Hedging method and provide our algorithm for market design, training, validation and benchmarking.
+
 ### 7.1 Problem statement
 
 Consider a Heston market driven by two stochastic processes, $S_t^1$ (stock) and $V_t$ (variance). At $t=0$ a European call is sold for premium $q$, while at $t=T$ the payoff $Z:=\text{max}\{S_T^1-K,0\}$ must be delivered. Since $S_T^1:\Omega\to\mathbb{R_{+}}$ is a random variable, the liability from $Z$ is uncertain and must be hedged by trading in $S_t^1$ and in an idealized variance swap $S_t^2$ (since $V_t$ is not tradeable!).
@@ -201,7 +202,7 @@ $$
 The stochastic processes $S_t^1$ and $V_t$ from section 7.1 are specified by Heston's stochastic volatility model under the risk-neutral measure $\mathbb{Q}$. The model defines parameters $r \ge 0$ (rate), $V_0>0$ (initial variance), $\theta_{par}>0$ (long-run mean variance), $\kappa>0$ (mean-reversion speed), $\xi>0$ (volatility of volatility), $\rho\in[-1,1]$ (correlation of stock and variance shocks) and is for $t>0$ given as a system of stochastic differential equations (SDEs) 
 
 $$
-\mathrm{d}S_t^1 = \sqrt{V_t}\, S_t^1\, \mathrm{d}W_t^{S_t^1}
+\mathrm{d}S_t^1 = \sqrt{V_t} S_t^1 \mathrm{d}W_t^{S_t^1}
 $$ 
 
 $$
