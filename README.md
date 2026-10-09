@@ -387,7 +387,7 @@ $$
 \ln S^1_{k+1} = \ln S^1_k - \frac{1}{2} I_k + \int_{t_k}^{t_{k+1}} \sqrt{V_s}\mathrm{d}W^S_s
 $$ 
 
-with $W^S$ as a Wiener process. Writing $W^S = \rhoW^V + \sqrt{1-\rho^2}B$ (decomposition into variance driver $W^V$ plus an independent Brownian motion $B$) the correlated part of the integral needs not to be drawn at all. Then integrating the variance SDE of 7.2 over a single step yields 
+with $W^S$ as a Wiener process. Writing $W^S = \rho W^V + \sqrt{1-\rho^2}B$ (decomposition into variance driver $W^V$ plus an independent Brownian motion $B$) the correlated part of the integral needs not to be drawn at all. Then integrating the variance SDE of 7.2 over a single step yields 
 
 $$
 \xi\int_{t_k}^{t_{k+1}} \sqrt{V_s}\mathrm{d}W^V_s = V_{k+1} - V_k - \kappa\theta_{par}\mathrm{d}t + \kappa I_k
