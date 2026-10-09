@@ -28,12 +28,11 @@ The repository provides an end-to-end pipeline across market simulation, pricing
      - Minimization of loss $J$ as OCE representation of CVaR (due to non-differentiability of CVaR)
   - **Joint training** of all DFNNs and the OCE threshold $w$, with Adam optimizer
   - **Automatic BatchNorm calibration** at the end of training
-  - **Evaluation of hedging quality** via 
-  $J^*$
-, sorted CVaR, $w$-vs-VaR check and indifference price $p_0 = q + J^*$
+  - **Evaluation of hedging quality** via $J$  $J^\ast$, sorted CVaR, $w$-vs-VaR check and indifference price $p_0 = q + J^*$
 - **One-command experiments:** to create market scenario, plot charts of market, strategies, PnL, terminal error for ML hedge vs analytical estimations and learning curves
 - **Easy design & training of new models** via three parameter blocks (`HestonParameters`, `TrainingParameters`, `DFNNParameters`) with paper defaults as fallback
 - **Easy save and load and use** of newly trained models
+  
 ## 2. Requirements
 - Python 3.10+ (tested with 3.11.9)
 - numpy==2.1.3
