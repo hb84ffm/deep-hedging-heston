@@ -196,7 +196,7 @@ $$
 J(\delta, w)=w + \frac{1}{1-\alpha}\,\mathbb{E}\Big[\max\Big\{-\Big(q-Z +\sum_{k=0}^{n-1} \Bigl(\delta^1_k \cdot (S^1_{k+1}-S^1_k)+\delta^2_k \cdot (S^2_{k+1}-S^2_k)\Bigr)\Big) - w,\; 0\Big\}\Big]
 $$
 
-The optimization problem then results in finding  $J^\ast$, the minimal achievable CVaR-based residual hedging risk over all admissible hedging strategies, given by 
+The optimization problem then results in finding $J^\ast$, the minimal achievable CVaR-based residual hedging risk over all admissible hedging strategies, given by 
 
 $$
 J^\ast=\inf_{\delta, w}J(\delta,w)
@@ -204,7 +204,25 @@ $$
 
 ### 7.2 Heston market
 
-The stochastic processes $S_t^1$ and $V_t$ from section 7.1 are specified by Heston's stochastic volatility model under the risk-neutral measure $\mathbb{Q}$. The model defines parameters $r \ge 0$ (rate), $V_0>0$ (initial variance), $\theta_{par}>0$ (long-run mean variance), $\kappa>0$ (mean-reversion speed), $\xi>0$ (volatility of volatility), $\rho\in[-1,1]$ (correlation of stock and variance shocks) and is for $t>0$ given as a system of stochastic differential equations (SDEs) $$\mathrm{d}S_t^1 = \sqrt{V_t}\, S_t^1\, \mathrm{d}W_t^{S_t^1}$$ $$\mathrm{d}V_t = \kappa\,(\theta_{par} - V_t)\,\mathrm{d}t + \xi \sqrt{V_t}\,\mathrm{d}W_t^{V_t}$$ where $V_t$ follows a Cox-Ingersoll-Ross (CIR) process with initial conditions $$ S_0^1>0$$ $$V_0>0$$  
+The stochastic processes $S_t^1$ and $V_t$ from section 7.1 are specified by Heston's stochastic volatility model under the risk-neutral measure $\mathbb{Q}$. The model defines parameters $r \ge 0$ (rate), $V_0>0$ (initial variance), $\theta_{par}>0$ (long-run mean variance), $\kappa>0$ (mean-reversion speed), $\xi>0$ (volatility of volatility), $\rho\in[-1,1]$ (correlation of stock and variance shocks) and is for $t>0$ given as a system of stochastic differential equations (SDEs) 
+
+$$
+\mathrm{d}S_t^1 = \sqrt{V_t}\, S_t^1\, \mathrm{d}W_t^{S_t^1}
+$$ 
+
+$$
+\mathrm{d}V_t = \kappa\,(\theta_{par} - V_t)\,\mathrm{d}t + \xi \sqrt{V_t}\,\mathrm{d}W_t^{V_t}
+$$ 
+
+where $V_t$ follows a Cox-Ingersoll-Ross (CIR) process with initial conditions 
+
+$$
+S_0^1>0
+$$ 
+
+$$
+V_0>0
+$$  
 
 Furthermore, both Wiener processes fulfil $$\mathrm{d}\langle W_t^{S_t^1},W_t^{V_t}\rangle =\rho\,\mathrm{d}t$$ while the expected variance satisfies for $t\to\infty$ $$\mathbb{E}_{\mathbb{Q}}[V_t]=\theta_{par}+(V_0-\theta_{par})e^{-\kappa t}\rightarrow\theta_{par}$$ 
 
