@@ -224,52 +224,186 @@ $$
 V_0>0
 $$  
 
-Furthermore, both Wiener processes fulfil $$\mathrm{d}\langle W_t^{S_t^1},W_t^{V_t}\rangle =\rho\,\mathrm{d}t$$ while the expected variance satisfies for $t\to\infty$ $$\mathbb{E}_{\mathbb{Q}}[V_t]=\theta_{par}+(V_0-\theta_{par})e^{-\kappa t}\rightarrow\theta_{par}$$ 
+Furthermore, both Wiener processes fulfil 
 
-Since the variance $V_t$ is not tradeable, an idealized variance swap $S_t^2$ is introduced and it's value at $t$ is given by $$S_t^2=\underbrace{\int_0^t V_s\,\mathrm{d}s}_{\text{realized variance}}+\underbrace{\frac{V_t-\theta_{par}}{\kappa}\left(1-e^{-\kappa(T-t)}\right)+\theta_{par}(T-t)}_{\text{expected future variance}}$$
+$$
+\mathrm{d}\langle W_t^{S_t^1},W_t^{V_t}\rangle =\rho\,\mathrm{d}t
+$$ 
+
+while the expected variance satisfies for $t\to\infty$ 
+
+$$
+\mathbb{E}_{\mathbb{Q}}[V_t]=\theta_{par}+(V_0-\theta_{par})e^{-\kappa t}\rightarrow\theta_{par}
+$$ 
+
+Since the variance $V_t$ is not tradeable, an idealized variance swap $S_t^2$ is introduced and it's value at $t$ is given by 
+
+$$
+S_t^2=\underbrace{\int_0^t V_s\,\mathrm{d}s}_{\text{realized variance}}+\underbrace{\frac{V_t-\theta_{par}}{\kappa}\left(1-e^{-\kappa(T-t)}\right)+\theta_{par}(T-t)}_{\text{expected future variance}}
+$$
 
 Hence price changes $S^1_{k+1}-S^1_k$ and $S^2_{k+1}-S^2_k$ of the hedging error in 7.1 become computable.
+
 ### 7.3 Pricing $C_t$ in the Heston market via Fang-Oosterlee
 
-The premium $q$ of 7.1 is the price of the call at $t=0$, under $\mathbb{Q}$ an arbitrary price is given by $$C_t \;=\; \mathbb{E}^{\mathbb{Q}}\Big[\,\underbrace{Z}_{\text{payoff of 7.1}}\;\Big|\; S_t^1, V_t\,\Big]$$  
+The premium $q$ of 7.1 is the price of the call at $t=0$, under $\mathbb{Q}$ an arbitrary price is given by 
 
-Since $(S_t^1, V_t)$ are Markov (future depends only on current state), the price is a function of time, stock and variance given by $$C_t \;=\; u(t, S_t^1, V_t)$$ $$q \;=\; u(0, S_0^1, V_0)$$ 
+$$
+C_t \;=\; \mathbb{E}^{\mathbb{Q}}\Big[\,\underbrace{Z}_{\text{payoff of 7.1}}\;\Big|\; S_t^1, V_t\,\Big]
+$$  
+
+Since $(S_t^1, V_t)$ are Markov (future depends only on current state), the price is a function of time, stock and variance given by 
+
+$$
+C_t \;=\; u(t, S_t^1, V_t)
+$$ 
+
+$$
+q \;=\; u(0, S_0^1, V_0)
+$$ 
 
 To compute $u$ and its partial derivatives we use the Fourier-cosine expansion of [FangOosterlee08], evaluated at a generic state $(s, v) = (S_t^1, V_t)$ with remaining maturity $\tau = T - t$.
  
-The truncated log-stock interval in our implementation is chosen as (see [Sey15]) $$h \;=\; 10\sqrt{v\,\tau} \,+\, \bigl|\ln s - \ln K\bigr|$$ $$a \;=\; \ln s - h$$ $$b \;=\; \ln s + h$$ 
+The truncated log-stock interval in our implementation is chosen as (see [Sey15]) 
 
-On this interval the price is the cosine series $$u(t, s, v) \;=\; \frac{2}{b-a}\sum_{k=0}^{N_{cos}-1}{}'\, \text{Re}\Big[\underbrace{e^{\,i u_k \ln s \,+\, D(u_k)\,v}}_{\text{state } (s,v)}\;\underbrace{\bigl(\chi_k - K\,\psi_k\bigr)\, e^{\,C(u_k) \,-\, i u_k a}}_{\text{state-independent}}\Big]$$ $$u_k \;=\; \frac{k\pi}{b-a}$$ with $i$ as imaginary unit, $\text{Re}[\cdot]$ as real part, $\sum{}'$ weights the first term of the sum with $1/2$ and $N_{cos}$ is the number of cosine terms. The Heston characteristic function enters through coefficients $$d(u) \;=\; \sqrt{(\rho\,\xi\, i u - \kappa)^2 \,+\, \xi^2\,(u^2 + i u)}$$ $$g(u) \;=\; \frac{\kappa - \rho\,\xi\, i u - d(u)}{\kappa - \rho\,\xi\, i u + d(u)}$$  $$C(u) \;=\; \frac{\kappa\,\theta_{par}}{\xi^2}\left[(\kappa - \rho\,\xi\, i u - d(u))\,\tau \;-\; 2\ln\frac{1 - g(u)\,e^{-d(u)\,\tau}}{1 - g(u)}\right]$$ $$D(u) \;=\; \frac{\kappa - \rho\,\xi\, i u - d(u)}{\xi^2}\cdot\frac{1 - e^{-d(u)\,\tau}}{1 - g(u)\,e^{-d(u)\,\tau}}$$ 
+$$
+h \;=\; 10\sqrt{v\,\tau} \,+\, \bigl|\ln s - \ln K\bigr|
+$$ 
 
-The payoff coefficients of the call are for $(k \ge 1)$ given by $$\chi_k \;=\; \text{Re}\left[\frac{e^{\,b \,+\, i u_k (b-a)} \,-\, e^{\,\ln K \,+\, i u_k (\ln K - a)}}{1 + i u_k}\right]$$ $$\psi_0 \;=\; b - \ln K$$ $$\psi_k \;=\; \text{Re}\left[\frac{e^{\,i u_k (b-a)} \,-\, e^{\,i u_k (\ln K - a)}}{i u_k}\right]$$ where $\psi_0$ is the limit value at $u_0 = 0$ to avoid zero-division.
+$$
+a \;=\; \ln s - h
+$$ 
 
-Differentiating the series term by term over interval $[a, b]$ (as implemented: one shared interval per batch) gives both analytical deltas (as in Eq. (5.6) of [Buh01]) in closed series form $$\delta_t^1 \;=\; \frac{\partial u}{\partial s} \;=\; \frac{2}{b-a}\,\frac{1}{s}\sum_{k=0}^{N_{cos}-1}{}'\, \text{Re}\Big[\,i u_k\;\, e^{\,i u_k \ln s \,+\, D(u_k)\,v}\,\bigl(\chi_k - K\psi_k\bigr)\,e^{\,C(u_k) \,-\, i u_k a}\Big]$$ $$\delta_t^2 \;=\; \frac{\partial_v u}{\partial_v L} \;=\; \frac{2}{b-a}\,\frac{1}{\partial_v L(t, v)}\sum_{k=0}^{N_{cos}-1}{}'\,\text{Re}\Big[\,D(u_k)\;\, e^{\,i u_k \ln s \,+\, D(u_k)\,v}\,\bigl(\chi_k - K\psi_k\bigr)\,e^{\,C(u_k) \,-\, i u_k a}\Big]$$ with $\partial_v L(t,v) = \frac{1}{\kappa}\bigl(1 - e^{-\kappa \tau}\bigr)$ as variance sensitivity of the variance swap from 7.2. 
+$$
+b \;=\; \ln s + h
+$$ 
+
+On this interval the price is the cosine series 
+
+$$
+u(t, s, v) \;=\; \frac{2}{b-a}\sum_{k=0}^{N_{cos}-1}{}'\, \text{Re}\Big[\underbrace{e^{\,i u_k \ln s \,+\, D(u_k)\,v}}_{\text{state } (s,v)}\;\underbrace{\bigl(\chi_k - K\,\psi_k\bigr)\, e^{\,C(u_k) \,-\, i u_k a}}_{\text{state-independent}}\Big]
+$$ 
+
+$$
+u_k \;=\; \frac{k\pi}{b-a}
+$$ 
+
+with $i$ as imaginary unit, $\text{Re}[\cdot]$ as real part, $\sum{}'$ weights the first term of the sum with $1/2$ and $N_{cos}$ is the number of cosine terms. The Heston characteristic function enters through coefficients 
+
+$$
+d(u) \;=\; \sqrt{(\rho\,\xi\, i u - \kappa)^2 \,+\, \xi^2\,(u^2 + i u)}
+$$ 
+
+$$
+g(u) \;=\; \frac{\kappa - \rho\,\xi\, i u - d(u)}{\kappa - \rho\,\xi\, i u + d(u)}
+$$  
+
+$$
+C(u) \;=\; \frac{\kappa\,\theta_{par}}{\xi^2}\left[(\kappa - \rho\,\xi\, i u - d(u))\,\tau \;-\; 2\ln\frac{1 - g(u)\,e^{-d(u)\,\tau}}{1 - g(u)}\right]
+$$ 
+
+$$
+D(u) \;=\; \frac{\kappa - \rho\,\xi\, i u - d(u)}{\xi^2}\cdot\frac{1 - e^{-d(u)\,\tau}}{1 - g(u)\,e^{-d(u)\,\tau}}
+$$ 
+
+The payoff coefficients of the call are for $(k \ge 1)$ given by 
+
+$$
+\chi_k \;=\; \text{Re}\left[\frac{e^{\,b \,+\, i u_k (b-a)} \,-\, e^{\,\ln K \,+\, i u_k (\ln K - a)}}{1 + i u_k}\right]
+$$ 
+
+$$
+\psi_0 \;=\; b - \ln K
+$$ 
+
+$$
+\psi_k \;=\; \text{Re}\left[\frac{e^{\,i u_k (b-a)} \,-\, e^{\,i u_k (\ln K - a)}}{i u_k}\right]
+$$ 
+
+where $\psi_0$ is the limit value at $u_0 = 0$ to avoid zero-division.
+
+Differentiating the series term by term over interval $[a, b]$ (as implemented: one shared interval per batch) gives both analytical deltas (as in Eq. (5.6) of [Buh01]) in closed series form 
+
+$$
+\delta_t^1 \;=\; \frac{\partial u}{\partial s} \;=\; \frac{2}{b-a}\,\frac{1}{s}\sum_{k=0}^{N_{cos}-1}{}'\, \text{Re}\Big[\,i u_k\;\, e^{\,i u_k \ln s \,+\, D(u_k)\,v}\,\bigl(\chi_k - K\psi_k\bigr)\,e^{\,C(u_k) \,-\, i u_k a}\Big]
+$$ 
+
+$$
+\delta_t^2 \;=\; \frac{\partial_v u}{\partial_v L} \;=\; \frac{2}{b-a}\,\frac{1}{\partial_v L(t, v)}\sum_{k=0}^{N_{cos}-1}{}'\,\text{Re}\Big[\,D(u_k)\;\, e^{\,i u_k \ln s \,+\, D(u_k)\,v}\,\bigl(\chi_k - K\psi_k\bigr)\,e^{\,C(u_k) \,-\, i u_k a}\Big]
+$$ 
+
+with $\partial_v L(t,v) = \frac{1}{\kappa}\bigl(1 - e^{-\kappa \tau}\bigr)$ as variance sensitivity of the variance swap from 7.2. 
  
 In simple words: $\delta_t^1$ is the sensitivity of the price to the stock, $\delta_t^2$ is the sensitivity to variance divided by the variance sensitivity
 of the swap (units of the swap to hold).
 
-In continuous time, the holding $\delta_t = (\delta_t^1, \delta_t^2)$ would replicate the payoff exactly (Eq. (5.5) of [Buh01]) via $$Z \;=\; q \,+\, \int_0^T \Bigl( \delta_t^1\,\mathrm{d}S_t^1 + \delta_t^2\,\mathrm{d}S_t^2 \Bigr)$$ 
+In continuous time, the holding $\delta_t = (\delta_t^1, \delta_t^2)$ would replicate the payoff exactly (Eq. (5.5) of [Buh01]) via 
+
+$$
+Z \;=\; q \,+\, \int_0^T \Bigl( \delta_t^1\,\mathrm{d}S_t^1 + \delta_t^2\,\mathrm{d}S_t^2 \Bigr)
+$$ 
+
 On the discrete grid of 7.1 this replication fails and the residual is the hedging error $\varepsilon(\delta)$. The strategy $\delta_t = (\delta_t^1, \delta_t^2)$ computed from these analytical methods serves therefore as the natural benchmark ([Buh01, Section 5.2]) against which the ML hedge is evaluated.
+
 ### 7.4 Path simulation
 
 The training and validation data necessary for Section 7.5 are in our case simulated. Paths of the hedging instruments and the payoff are generated under $\mathbb{Q}$. The variance paths are then drawn from their exact CIR transition density (no Euler discretization) and the stock paths follow the simplified Broadie-Kaya scheme ([BroKay03], [LBAK04, Sec. 4.2.2]), conditional on the drawn variance paths. The variance swap is then computed (not sampled) using the realized variance of the path and the drawn state. All random draws follow a fixed order, first variance, then stock.
 
 **VARIANCE VIA EXACT CIR SAMPLING:** 
 
-Given a current variance $V_k$, the next variance value is exactly drawn from the CIR transition law ([Buh01, Sec. 5.2]) $$V_{k+1} \;=\; c \cdot \chi'^{2}_{\nu}(\lambda)$$ 
+Given a current variance $V_k$, the next variance value is exactly drawn from the CIR transition law ([Buh01, Sec. 5.2]) 
 
-where $\chi'^{2}_{\nu}(\lambda)$ denotes a noncentral chi-square random variable with $\nu$ degrees of freedom and noncentrality $\lambda$ and $$\nu=\frac{4\kappa\theta_{par}}{\xi^2}$$  $$c =\frac{\xi^2\,\bigl(1 - e^{-\kappa\,\mathrm{d}t}\bigr)}{4\kappa}$$ $$\lambda \;=\; \frac{4\kappa\, e^{-\kappa\,\mathrm{d}t}\, V_k}{\xi^2\,\bigl(1 - e^{-\kappa\,\mathrm{d}t}\bigr)}$$ 
+$$
+V_{k+1} \;=\; c \cdot \chi'^{2}_{\nu}(\lambda)
+$$ 
+
+where $\chi'^{2}_{\nu}(\lambda)$ denotes a noncentral chi-square random variable with $\nu$ degrees of freedom and noncentrality $\lambda$ and 
+
+$$
+\nu=\frac{4\kappa\theta_{par}}{\xi^2}
+$$  
+
+$$
+c =\frac{\xi^2\,\bigl(1 - e^{-\kappa\,\mathrm{d}t}\bigr)}{4\kappa}
+$$ 
+
+$$
+\lambda \;=\; \frac{4\kappa\, e^{-\kappa\,\mathrm{d}t}\, V_k}{\xi^2\,\bigl(1 - e^{-\kappa\,\mathrm{d}t}\bigr)}
+$$ 
 
 The factor $c$ rescales the draw into variance units, $\nu$ is fixed by the model parameters of 7.2 and $\lambda$ carries over the current level $V_k$. Every variance value is a genuine draw from the true one-step distribution, hence variance paths carry no discretization error. Since the noncentral chi-square distribution is supported on $[0, \infty)$ its square root $\sqrt{V_t}$ in the stock dynamics of 7.2 is always well defined (in contrast Euler schemes can produce negative values!).
 
 
 **INTEGRATED VARIANCE VIA TRAPEZOIDAL RULE:** 
 
-The stock and variance swap update require both the realized variance over one time step $$I_k \;:=\; \int_{t_k}^{t_{k+1}} V_s\,\mathrm{d}s \;\approx\; \frac{\mathrm{d}t}{2}\,\bigl(V_k + V_{k+1}\bigr)$$ which is the average of the endpoint variances (only approximation in the whole scheme). Cumulating gives the realized variance up to any date, $\int_0^{t_k} V_s\,\mathrm{d}s = \sum_{j=0}^{k-1} I_j$.
+The stock and variance swap update require both the realized variance over one time step 
+$$
+I_k \;:=\; \int_{t_k}^{t_{k+1}} V_s\,\mathrm{d}s \;\approx\; \frac{\mathrm{d}t}{2}\,\bigl(V_k + V_{k+1}\bigr)
+$$ 
+
+which is the average of the endpoint variances (only approximation in the whole scheme). Cumulating gives the realized variance up to any date, $\int_0^{t_k} V_s\,\mathrm{d}s = \sum_{j=0}^{k-1} I_j$.
 
 **STOCK VIA SIMPLIFIED BROADIE-KAYA:** 
 
-Over one step, the exact solution of the stock SDE of 7.2 (zero drift under $\mathbb{Q}$, since $r = 0$) is $$\ln S^1_{k+1} \;=\; \ln S^1_k \;-\; \frac{1}{2}\,I_k \;+\; \int_{t_k}^{t_{k+1}} \sqrt{V_s}\,\mathrm{d}W^S_s$$ with $W^S$ as a Wiener process. Writing $W^S = \rho\,W^V + \sqrt{1-\rho^2}\,B$ (decomposition into variance driver $W^V$ plus an independent Brownian motion $B$) the correlated part of the integral needs not to be drawn at all. Then integrating the variance SDE of 7.2 over a single step yields $$\xi\int_{t_k}^{t_{k+1}} \sqrt{V_s}\,\mathrm{d}W^V_s \;=\; V_{k+1} - V_k - \kappa\theta_{par}\,\mathrm{d}t + \kappa\,I_k$$ determined by the drawn variance change, only the orthogonal part remains random. Conditional on the variance path it is Gaussian with variance $(1-\rho^2)\,I_k$ and a new standard normal shock $G_k$ per step updates the stock by $$\ln S^1_{k+1} \;=\; \ln S^1_k \;+\; \underbrace{\frac{\rho}{\xi}\,\bigl(V_{k+1} - V_k - \kappa\theta_{par}\,\mathrm{d}t + \kappa\,I_k\bigr)}_{\text{correlation term, determined by the variance path}} \;-\; \underbrace{\frac{1}{2}\,I_k}_{\text{Itô correction}} \;+\; \underbrace{\sqrt{(1-\rho^2)\,I_k}\;G_k}_{\text{independent noise}}$$ where $G_k$ is standard normal and independent of everything drawn before, it is the only random component in the stock update. Given the variance path, it generates the stock's uncorrelated fluctuation (i.e. the component that would move the stock even if variance stayed flat).
+Over one step, the exact solution of the stock SDE of 7.2 (zero drift under $\mathbb{Q}$, since $r = 0$) is 
+
+$$
+\ln S^1_{k+1} \;=\; \ln S^1_k \;-\; \frac{1}{2}\,I_k \;+\; \int_{t_k}^{t_{k+1}} \sqrt{V_s}\,\mathrm{d}W^S_s
+$$ 
+
+with $W^S$ as a Wiener process. Writing $W^S = \rho\,W^V + \sqrt{1-\rho^2}\,B$ (decomposition into variance driver $W^V$ plus an independent Brownian motion $B$) the correlated part of the integral needs not to be drawn at all. Then integrating the variance SDE of 7.2 over a single step yields 
+
+$$
+\xi\int_{t_k}^{t_{k+1}} \sqrt{V_s}\,\mathrm{d}W^V_s \;=\; V_{k+1} - V_k - \kappa\theta_{par}\,\mathrm{d}t + \kappa\,I_k
+$$ 
+
+determined by the drawn variance change, only the orthogonal part remains random. Conditional on the variance path it is Gaussian with variance $(1-\rho^2)\,I_k$ and a new standard normal shock $G_k$ per step updates the stock by 
+
+$$
+\ln S^1_{k+1} \;=\; \ln S^1_k \;+\; \underbrace{\frac{\rho}{\xi}\,\bigl(V_{k+1} - V_k - \kappa\theta_{par}\,\mathrm{d}t + \kappa\,I_k\bigr)}_{\text{correlation term, determined by the variance path}} \;-\; \underbrace{\frac{1}{2}\,I_k}_{\text{Itô correction}} \;+\; \underbrace{\sqrt{(1-\rho^2)\,I_k}\;G_k}_{\text{independent noise}}
+$$ 
+
+where $G_k$ is standard normal and independent of everything drawn before, it is the only random component in the stock update. Given the variance path, it generates the stock's uncorrelated fluctuation (i.e. the component that would move the stock even if variance stayed flat).
 
 **VARIANCE SWAP:** 
 
@@ -289,7 +423,25 @@ Since $(S_t^1,V_t)$ is Markov, the optimization is restricted to depend on curre
 
 **REDUCTION 2, DFNNS:** 
 
-Each $f_k$ is then approximated by a DFNN $F_{\theta_k}$ with network layers $\ell = 1, \dots, L$ and using input $x_0 = (\ln s, v)$ to compute $$x_\ell \;=\; \underbrace{\sigma\bigl(A_\ell\, x_{\ell-1} + b_\ell\bigr)}_{\text{hidden layers}}$$ $$F_{\theta_k}(x_0) \;=\; \underbrace{A_L\, x_{L-1} + b_L}_{\text{linear output: } (\delta^1_k, \delta^2_k)}$$ where each $A_\ell$ is a weight matrix, $b_\ell$ a bias vector and $\sigma$ a nonlinear activation applied componentwise and given by $\sigma(x) = \max(x, 0)$. The parametrized strategy is then $$\delta^{\theta}_k \;=\; F_{\theta_k}(\ln S^1_k, V_k)$$ where $\theta$ collects the weights of all $n$ networks. Substituting $\delta^{\theta}$ into the loss of 7.1 yields $$J(\theta, w) \;=\; w + \frac{1}{1-\alpha}\,\mathbb{E}\Big[\max\big\{-\varepsilon(\delta^{\theta}) - w,\; 0\big\}\Big]$$ with $$J^\ast \;=\; \inf_{\theta,\, w}\, J(\theta, w)$$  This turns the optimization over the infinite-dimensional space of admissible hedging strategies to a finite-dimensional optimization over $\theta$ and $w$. This makes the problem computationally tractable.
+Each $f_k$ is then approximated by a DFNN $F_{\theta_k}$ with network layers $\ell = 1, \dots, L$ and using input $x_0 = (\ln s, v)$ to compute 
+
+$$
+x_\ell \;=\; \underbrace{\sigma\bigl(A_\ell\, x_{\ell-1} + b_\ell\bigr)}_{\text{hidden layers}}$$ $$F_{\theta_k}(x_0) \;=\; \underbrace{A_L\, x_{L-1} + b_L}_{\text{linear output: } (\delta^1_k, \delta^2_k)}
+$$ 
+
+where each $A_\ell$ is a weight matrix, $b_\ell$ a bias vector and $\sigma$ a nonlinear activation applied componentwise and given by $\sigma(x) = \max(x, 0)$. The parametrized strategy is then 
+
+$$
+\delta^{\theta}_k \;=\; F_{\theta_k}(\ln S^1_k, V_k)
+$$ 
+
+where $\theta$ collects the weights of all $n$ networks. Substituting $\delta^{\theta}$ into the loss of 7.1 yields $$J(\theta, w) \;=\; w + \frac{1}{1-\alpha}\,\mathbb{E}\Big[\max\big\{-\varepsilon(\delta^{\theta}) - w,\; 0\big\}\Big]$$ with 
+
+$$
+J^\ast \;=\; \inf_{\theta,\, w}\, J(\theta, w)
+$$  
+
+This turns the optimization over the infinite-dimensional space of admissible hedging strategies to a finite-dimensional optimization over $\theta$ and $w$. This makes the problem computationally tractable.
 
 
 **WHY THE REDUCTIONS ARE SOUND:** 
@@ -300,11 +452,18 @@ The DFNNs approximate the Markov strategy functions $f_k$ arbitrarily well as th
 
 **HOW THE MINIMUM IS COMPUTED:** 
 
-The expectation in $J$ is estimated on synthetic market paths (Section 7.4). It is replaced by the average over a mini-batch of $B$ scenarios randomly drawn from the (simulated) training set $$J_B(\theta, w)= w + \frac{1}{1-\alpha} \underbrace{\frac{1}{B}\sum_{m=1}^{B}}_{\text{average over } B \text{ paths}} \max\bigl\{-\varepsilon\bigl(\omega_m\bigr) - w, 0\bigr\}$$  where $\omega_1, \dots, \omega_B$ are the drawn market scenarios and $\varepsilon(\omega_m)$ the terminal hedging error of strategy $\delta^{\theta}$ on scenario $\omega_m$. Because this objective is built from differentiable operations, its gradients are well defined, hence backpropagation applicable and stochastic gradient descent (Adam [KB15]) updates $\theta$ and $w$.
+The expectation in $J$ is estimated on synthetic market paths (Section 7.4). It is replaced by the average over a mini-batch of $B$ scenarios randomly drawn from the (simulated) training set 
+
+$$
+J_B(\theta, w)= w + \frac{1}{1-\alpha} \underbrace{\frac{1}{B}\sum_{m=1}^{B}}_{\text{average over } B \text{ paths}} \max\bigl\{-\varepsilon\bigl(\omega_m\bigr) - w, 0\bigr\}
+$$  
+
+where $\omega_1, \dots, \omega_B$ are the drawn market scenarios and $\varepsilon(\omega_m)$ the terminal hedging error of strategy $\delta^{\theta}$ on scenario $\omega_m$. Because this objective is built from differentiable operations, its gradients are well defined, hence backpropagation applicable and stochastic gradient descent (Adam [KB15]) updates $\theta$ and $w$.
 
 **What enters the training.** Only (simulated) paths for $(\log (S_t^1), V_t)$ and their resulting $\varepsilon(\delta^{\theta})$, neither pricing model nor greeks are used. The pricing machinery of 7.3 is only used for benchmarking, this means calculating the model-delta hedge against which the ML hedge is evaluated.
 
 **What comes out.** After training, the output is the learned hedge $\delta^{\theta^\ast}$, whose loss approximates the minimal $J^\ast$ (residual risk after collecting the premium $q$). The associated risk-adjusted price is then $p_0 = q + J^\ast$ (by Proposition 3.10(ii) of [Buh01], $p_0 \ge q$).
+
 ### 7.6 Settings, synthetic data simulation and algorithm
 In this section we outline **our** implementation, which includes model assumptions, parameter definition, path simulation, network architecture, computational graph design, training loop and validation. We closely follow the design in [Buh01].
 
@@ -337,7 +496,13 @@ All parameters are fixed before simulation, training and validation. Defaults fo
 
 **3. Loss function and risk preference**
 - Set $\alpha=0.5$
-- The to be minimized loss function is the OCE representation of CVaR, in its parametrized form (over all network weights $\theta$ and threshold $w$) it is given by  $$J(\theta, w) \;=\; w \;+\; 2\,\mathbb{E}\Big[\max\Big\{-\Big(q - Z + \sum_{k=0}^{n-1}\Bigl(\bigl[F_{\theta_k}(\ln S^1_k, V_k)\bigr]_1 \cdot \bigl(S^1_{k+1} - S^1_k\bigr) + \bigl[F_{\theta_k}(\ln S^1_k, V_k)\bigr]_2 \cdot \bigl(S^2_{k+1} - S^2_k\bigr)\Bigr)\Big) - w,\; 0\Big\}\Big]$$ where $[\,\cdot\,]_1, [\,\cdot\,]_2$ select the first and second output component of the respective DFNN
+- The to be minimized loss function is the OCE representation of CVaR, in its parametrized form (over all network weights $\theta$ and threshold $w$) it is given by
+
+$$
+J(\theta, w) \;=\; w \;+\; 2\,\mathbb{E}\Big[\max\Big\{-\Big(q - Z + \sum_{k=0}^{n-1}\Bigl(\bigl[F_{\theta_k}(\ln S^1_k, V_k)\bigr]_1 \cdot \bigl(S^1_{k+1} - S^1_k\bigr) + \bigl[F_{\theta_k}(\ln S^1_k, V_k)\bigr]_2 \cdot \bigl(S^2_{k+1} - S^2_k\bigr)\Bigr)\Big) - w,\; 0\Big\}\Big]
+$$ 
+
+where $[\,\cdot\,]_1, [\,\cdot\,]_2$ select the first and second output component of the respective DFNN
 
 **4. Network architecture**
 - For each $k=0,\ldots,29$ exists one $F_{\theta_k}$ (DFNN), which:
@@ -478,7 +643,8 @@ All parameters are fixed before simulation, training and validation. Defaults fo
     - compute empirical sorted CVaR $\widehat{\mathrm{CVaR}}_\alpha = \frac{1}{\lfloor(1-\alpha)N\rfloor} \sum_{i=1}^{\lfloor(1-\alpha)N\rfloor}L^{(i)}$
     - compute empirical VaR $\widehat{\mathrm{VaR}}_\alpha = \inf \left\{ x: \frac{1}{N} \#\{m:L^m\le x\} \ge\alpha \right\}$
     - compare $w^\ast$ with $\widehat{\mathrm{VaR}}_\alpha$ 
-    - compute the risk-adjusted price $p_0=q+J^\ast$ 
+    - compute the risk-adjusted price $p_0=q+J^\ast$
+    - 
 **10. Benchmarking of ML model VS analytical estimates**
 
 **ANALYTICAL BENCHMARK** (on $\mathcal D^{\mathrm{val}}$):
@@ -489,7 +655,8 @@ All parameters are fixed before simulation, training and validation. Defaults fo
           $\delta^{2,m}_k = \frac{ \partial_vu \bigl(t_k,S^{1,m}_k,V^m_k\bigr)}{ \partial_vL \bigl(t_k,V^m_k\bigr)}$ 
 - compute model-hedge error $\varepsilon^m_{\mathrm{model}}= q-Z^m+\sum_{k=0}^{n-1} \left[ \delta^{1,m}_k \bigl(S^{1,m}_{k+1}-S^{1,m}_k\bigr) + \delta^{2,m}_k \bigl(S^{2,m}_{k+1}-S^{2,m}_k\bigr) \right]$
 - report the mean, standard deviation and sorted
-  $\mathrm{CVaR}_\alpha$ of $\{\varepsilon^m_{\mathrm{model}}\}_{m=1}^{N}$ 
+  $\mathrm{CVaR}_\alpha$ of $\{\varepsilon^m_{\mathrm{model}}\}_{m=1}^{N}$
+  
 ## 8. Sources
 
 - [Buh01] Buehler, Gonon, Teichmann, Wood: *Deep Hedging*, arXiv:1802.03042
