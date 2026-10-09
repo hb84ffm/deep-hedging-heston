@@ -20,7 +20,7 @@ The repository provides an end-to-end pipeline across market simulation, pricing
   - deltas $\delta_t^1, \delta_t^2$ (stock and variance-swap units, see [FangOosterlee08])
 - **Machine learning design (computational graph, training, validation)** including:
   - Hedge calculations in execution order:<br> 
-     - inputs $(\log S_k^1, V_k)$, $\Delta S^1_k$, $\Delta S^2_k$, payoff $\lbrace \max {S^1_T - K,0}\rbrace$ $(S^1_T - K)^+$, premium $q$<br> 
+     - inputs $(\log S_k^1, V_k)$, $\Delta S^1_k$, $\Delta S^2_k$, payoff $\max \lbrace {S^1_T - K,0}\rbrace$ $(S^1_T - K)^+$, premium $q$<br> 
      - one DFNN per rebalancing step with layers ($2 \to 17 \to 17 \to 2$) with batch normalization before activations<br>
      - deltas $\delta_k$<br> 
      - self-financed PnL  $\sum_k (\delta_k^1 \cdot \Delta S_k^1+\delta_k^2 \cdot \Delta S_k^2)$<br>
@@ -179,7 +179,7 @@ In this section we outline the problem statement, give a short intro to the Hest
 
 ### 7.1 Problem statement
 
-Consider a Heston market driven by two stochastic processes, $S_t^1$ (stock) and $V_t$ (variance). At $t=0$ a European call is sold for premium $q$, while at $t=T$ the payoff $Z:=\text{max}\{S_T^1-K,0\}$ must be delivered. Since $S_T^1:\Omega\to\mathbb{R_{+}}$ is a random variable, the liability from $Z$ is uncertain and must be hedged by trading in $S_t^1$ and in an idealized variance swap $S_t^2$ (since $V_t$ is not tradeable!).
+Consider a Heston market driven by two stochastic processes, $S_t^1$ (stock) and $V_t$ (variance). At $t=0$ a European call is sold for premium $q$, while at $t=T$ the payoff $Z:=\max\lbrace S_T^1-K,0\rbrace$ must be delivered. Since $S_T^1:\Omega\to\mathbb{R_{+}}$ is a random variable, the liability from $Z$ is uncertain and must be hedged by trading in $S_t^1$ and in an idealized variance swap $S_t^2$ (since $V_t$ is not tradeable!).
 
 Trading occurs at discrete timesteps $t_k=k \cdot \mathrm{d}t$ with $\mathrm{d}t=T/n$ for $k=0,\ldots,n-1$, where at each timestep the positions $\delta_k=(\delta^1_k,\delta^2_k)$ are chosen and held until next rebalancing date, to hedge the liability. The strategy is assumed to be self-financing (no external cash flows after premium received!), which yields the terminal hedging error $\varepsilon$ by 
 
