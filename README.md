@@ -188,7 +188,7 @@ $$
 Rather than minimizing $\varepsilon$, risk is measured via the CVaR-loss at level $\alpha \in [0, 1)$. To further optimize the gradient estimation, the OCE representation of CVaR is used, to yield 
 
 $$
-J(\delta, w)=w + \frac{1}{1-\alpha}\,\mathbb{E}\Big[\max\Big\{-\Big(q-Z +\sum_{k=0}^{n-1} \Bigl(\delta^1_k \cdot (S^1_{k+1}-S^1_k)+\delta^2_k \cdot (S^2_{k+1}-S^2_k)\Bigr)\Big) - w,\; 0\Big\}\Big]
+J(\delta, w)=w + \frac{1}{1-\alpha}\mathbb{E}\Big[\max\Big\{-\Big(q-Z +\sum_{k=0}^{n-1} \Bigl(\delta^1_k \cdot (S^1_{k+1}-S^1_k)+\delta^2_k \cdot (S^2_{k+1}-S^2_k)\Bigr)\Big) - w, 0\Big\}\Big]
 $$
 
 The optimization problem then results in finding $J^\ast$, the minimal achievable CVaR-based residual hedging risk over all admissible hedging strategies, given by 
@@ -222,7 +222,7 @@ $$
 Furthermore, both Wiener processes fulfil 
 
 $$
-\mathrm{d}\langle W_t^{S_t^1},W_t^{V_t}\rangle =\rho\,\mathrm{d}t
+\mathrm{d}\langle W_t^{S_t^1},W_t^{V_t}\rangle =\rho\mathrm{d}t
 $$ 
 
 while the expected variance satisfies for $t\to\infty$ 
@@ -560,7 +560,7 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
 **VARIANCE**:
 - for $k=0,\ldots,n-1$:
     - for $m=1,\ldots,N$:
-        - compute $\lambda^m_k= \frac{4\kappa e^{-\kappa\,\mathrm{d}t}V^m_k} {\xi^2(1-e^{-\kappa\mathrm{d}t})}$
+        - compute $\lambda^m_k= \frac{4\kappa e^{-\kappa\mathrm{d}t}V^m_k} {\xi^2(1-e^{-\kappa\mathrm{d}t})}$
         - draw $V^m_{k+1}= c\chi_{\nu}^{\prime 2}(\lambda^m_k)$
 
 **INTEGRATED VARIANCE**:
