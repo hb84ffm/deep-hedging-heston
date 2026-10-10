@@ -579,7 +579,8 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
         - draw one shock $G^m_k\sim N(0,1)$
         - update $\ln S^{1,m}_{k+1}=\ln(S_{k}^{1,m}) + \frac{\rho}{\xi}(V^m_{k+1}-V^m_k-\kappa\theta_{par}\mathrm{d}t+\kappa I^m_k) -\frac{1}{2} I^m_k+\sqrt{(1-\rho^2)I^m_k} G^m_k$
         - $a+b$
-        - $\ln (S^{1,m}_{k+1})=\ln(S_{k}^{1,m})$
+        - $\ln(S^{1,m}_{k+1})=\ln(S^{k}_{1,m})$
+        - $\ln(S_{k+1}^{1,m})=\ln(S_{1,m}^{k})$
 
 **EXPONENTIATE**:
 - for $k=0,\ldots,n$:
