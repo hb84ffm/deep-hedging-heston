@@ -297,7 +297,7 @@ g(u) = \frac{\kappa - \rho\xi i u - d(u)}{\kappa - \rho\xi i u + d(u)}
 $$  
 
 $$
-C(u) = \frac{\kappa\theta_{par}}{\xi^2}\left[(\kappa - \rho \xi i u - d(u)) \tau - 2\ln(\frac{1 - g(u) e^{-d(u) \tau}}{1 - g(u)}\right)]
+C(u) = \frac{\kappa\theta_{par}}{\xi^2}[(\kappa - \rho \xi i u - d(u)) \tau - 2\ln(\frac{1 - g(u) e^{-d(u) \tau}}{1 - g(u)})]
 $$ 
 
 $$
