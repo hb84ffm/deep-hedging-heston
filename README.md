@@ -387,7 +387,7 @@ which is the average of the endpoint variances (only approximation in the whole 
 Over one step, the exact solution of the stock SDE of 7.2 (zero drift under $\mathbb{Q}$, since $r = 0$) is 
 
 $$
-\ln S^1_{k+1} = \ln S^1_k - \frac{1}{2} I_k + \int_{t_k}^{t_{k+1}} \sqrt{V_s}\mathrm{d}W^S_s
+\ln(S^1_{k+1}) = \ln(S^1_k) - \frac{1}{2} I_k + \int_{t_k}^{t_{k+1}} \sqrt{V_s}\mathrm{d}W^S_s
 $$ 
 
 with $W^S$ as a Wiener process. Writing $W^S = \rho W^V + \sqrt{1-\rho^2}B$ (decomposition into variance driver $W^V$ plus an independent Brownian motion $B$) the correlated part of the integral needs not to be drawn at all. Then integrating the variance SDE of 7.2 over a single step yields 
