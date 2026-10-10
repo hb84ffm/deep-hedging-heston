@@ -593,7 +593,7 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
 
 **PAYOFF**:
 - for $m=1,\ldots,N$:
-    - compute $Z^m=\max \lbrace S^{1,m}_n-K,0\lbrace $
+    - compute $Z^m=\max \lbrace S^{1,m}_n-K,0\rbrace $
 
 **DATA PREPARATION**:
 - for $m=1,\ldots,N$:
