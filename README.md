@@ -662,7 +662,7 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
         - evaluate $\delta^{1,m}_k = \partial_su \bigl(t_k,S^{1,m}_k,V^m_k\bigr)$ and 
           $\delta^{2,m}_k = \frac{ \partial_vu (t_k,S^{1,m}_k,V^m_k)}{ \partial_vL (t_k,V^m_k)}$ 
 - compute modelhedge error $\varepsilon_{\mathrm{model}}^m= q-Z^m+\sum_{k=0}^{n-1} [\delta_k^{1,m} (S_{k+1}^{1,m}-S_k^{1,m}) + \delta_k^{2,m} (S_{k+1}^{2,m}-S_k^{2,m})]$
-- report the mean, standard deviation and sorted $CVaR_\alpha$ of $\lbrace \varepsilon_{\mathrm{model}^m} \rbrace_{m=1}^{N}$
+- report the mean, standard deviation and sorted $CVaR_\alpha$ of $\lbrace \varepsilon_{\mathrm{model}}^m \rbrace_{m=1}^{N}$
   
 ## 8. Sources
 
