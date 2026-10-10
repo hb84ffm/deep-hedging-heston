@@ -644,9 +644,6 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
 - for $\mathcal D\in \{\mathcal D^{\mathrm{val}},\mathcal D^{\mathrm{test}}\}$
     - for $m=1,\ldots,N$:
         - compute terminal hedging error, with the ML holdings of the forward pass over $\mathcal D$ via $\varepsilon^m = q-Z^m+\sum_{k=0}^{n-1} [\delta_k^{1,m} (S_{k+1}^{1,m}-S_k^{1,m}) + \delta_k^{2,m} (S_{k+1}^{2,m}-S_k^{2,m})]$
-        - $\widehat{\mathrm{CVaR}}_\alpha =
-\frac{1}{\left\lfloor (1-\alpha)N \right\rfloor}
-\sum_{i=1}^{\left\lfloor (1-\alpha)N \right\rfloor} L^{(i)}$
         - set $L^m=-\varepsilon^m$
     - compute mean and standard deviation of $\{\varepsilon^m\}_{m=1}^{N}$ 
     - compute approximations of OCE objective $J^\ast = w^\ast+ \frac{1}{1-\alpha} \frac{1}{N} \sum_{m=1}^{N} \max \lbrace L^m-w^\ast,0 \rbrace $ 
