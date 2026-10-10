@@ -630,7 +630,7 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
         - record $\bigl(j,J(\theta_j,w_j),J_{\mathrm{val}}\bigr)$ where $\theta_j,w_j$ are the parameter values after step $j$ 
 
 **BATCH-NORMALIZATION CALIBRATION**:
-- update the BN moving statistics after each training-mode forward pass by $\tilde{\mu_r} \leftarrow 0.99\tilde{\mu_r}+0.01\mu_r$ and $\tilde{s_r}^2 s_r^2\leftarrow 0.99\bar s_r^2+0.01s_r^2$
+- update the BN moving statistics after each training-mode forward pass by $\tilde{\mu_r} \leftarrow 0.99\tilde{\mu_r}+0.01\mu_r$ and $\tilde{s_r}^2 \leftarrow 0.99\tilde{s_r}^2+0.01s_r^2$
 - set the number of calibration passes to $P= \left\lceil\frac{800}{\lfloor N/B\rfloor}\right\rceil$
 - for $p=1,\ldots,P$:
     - shuffle the path indices
