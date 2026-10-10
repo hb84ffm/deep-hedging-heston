@@ -1,3 +1,13 @@
+```mermaid
+flowchart TD
+    A([Start]) --> B[Benutzereingabe]
+    B --> C{Eingabe gültig?}
+    C -- Ja --> D[Daten verarbeiten]
+    C -- Nein --> E[Fehlermeldung anzeigen]
+    E --> B
+    D --> F([Ende])
+```
+
 # Deep Hedging in a Heston Market
 
 This repository implements the Deep Hedging algorithm (see [Buh01](#Buh01), which hedges a short position in a European call through reinforcement learning.
