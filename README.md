@@ -648,6 +648,7 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
     - compute mean and standard deviation of $\lbrace \varepsilon^m \rbrace _{m=1}^{N}$ 
     - compute approximations of OCE objective $J^\ast = w^\ast+ \frac{1}{1-\alpha} \frac{1}{N} \sum_{m=1}^{N} \max \lbrace L^m-w^\ast,0 \rbrace $ 
     - sort the losses $L^{(1)}\ge L^{(2)}\ge\cdots\ge L^{(N)}$
+    - compute empirical sorted CVaR $\widehat{\mathrm{CVaR}}_\alpha = \frac{1}{\lfloor(1-\alpha)N\rfloor} \sum_{i=1}^{\lfloor(1-\alpha)N\rfloor}L^{(i)}$
     - compute empirical VaR $\widehat{\mathrm{VaR}}_\alpha = \inf \lbrace x: \frac{1}{N} |\lbrace m:L^m\le x\rbrace| \ge\alpha \rbrace$ 
     - compute empirical VaR $\widehat{\mathrm{VaR}}_\alpha = \inf \lbrace  x: \frac{1}{N} \# \lbrace m:L^m\le x \rbrace  \ge\alpha \rbrace $
     - compare $w^\ast$ with $\widehat{\mathrm{VaR}}_\alpha$ 
