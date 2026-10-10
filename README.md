@@ -399,7 +399,7 @@ $$
 determined by the drawn variance change, only the orthogonal part remains random. Conditional on the variance path it is Gaussian with variance $(1-\rho^2)I_k$ and a new standard normal shock $G_k$ per step updates the stock by 
 
 $$
-\ln S^1_{k+1} = \ln S^1_k + \underbrace{\frac{\rho}{\xi} \bigl(V_{k+1} - V_k - \kappa\theta_{par}\mathrm{d}t + \kappa I_k\bigr)}_{\text{correlation term, determined by the variance path}} - \underbrace{\frac{1}{2} I_k}_{\text{Itô correction}} + \underbrace{\sqrt{(1-\rho^2) I_k} G_k}_{\text{independent noise}}
+\ln (S^1_{k+1}) = \ln (S^1_k) + \underbrace{\frac{\rho}{\xi} \bigl(V_{k+1} - V_k - \kappa\theta_{par}\mathrm{d}t + \kappa I_k\bigr)}_{\text{correlation term, determined by the variance path}} - \underbrace{\frac{1}{2} I_k}_{\text{Itô correction}} + \underbrace{\sqrt{(1-\rho^2) I_k} G_k}_{\text{independent noise}}
 $$ 
 
 where $G_k$ is standard normal and independent of everything drawn before, it is the only random component in the stock update. Given the variance path, it generates the stock's uncorrelated fluctuation (i.e. the component that would move the stock even if variance stayed flat).
