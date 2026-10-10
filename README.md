@@ -669,9 +669,7 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
 - <a id="Buh01" href="https://arxiv.org/html/1802.03042v1" target="_blank" rel="noopener noreferrer">[Buh01] Buehler, Gonon, Teichmann, Wood: <i>Deep Hedging</i></a>
 - <a id="LBAK04" href="https://www.researchgate.net/publication/228034058_Simulation_of_Square-Root_Processes" target="_blank" rel="noopener noreferrer">[LBAK04] Andersen, Jäckel, Kahl: <i>Simulation of square-root processes</i></a>
 - <a id="BroKay03" href="https://www.columbia.edu/~mnb2/broadie/Assets/broadie_kaya_WSC2004.pdf" target="_blank" rel="noopener noreferrer">[BroKay03] Broadie, Kaya: <i>Exact Simulation of Option Greeks under Stochastic Volatility</i></a>
-
-
-- [FangOosterlee08] Fang, Oosterlee: *A Novel Pricing Method for European Options Based on Fourier-Cosine Series Expansions* 
-- [Sey15] Seydel: Tools for Computational Finance
-- [Hor91] Hornik, Stinchcombe, White: *Multilayer feedforward networks are universal approximators.*
-- [KB15] Kingma, Ba: *Adam: A Method for Stochastic Optimization*
+- <a id="FangOosterlee08" href="https://epubs.siam.org/doi/abs/10.1137/080718061" target="_blank" rel="noopener noreferrer">[FangOosterlee08] Fang, Oosterlee: <i>A Novel Pricing Method for European Options Based on Fourier-Cosine Series Expansions</i></a>
+- <a id="Sey15" href="https://link.springer.com/book/10.1007/978-1-4471-7338-0" target="_blank" rel="noopener noreferrer">[Sey15] Seydel: <i>Tools for Computational Finance</i></a>
+- <a id="Hor91" href="https://www.sciencedirect.com/science/article/pii/0893608089900208" target="_blank" rel="noopener noreferrer">[Hor91] Hornik, Stinchcombe, White: <i>Multilayer feedforward networks are universal approximators</i></a>
+- <a id="KB15" href="https://arxiv.org/abs/1412.6980" target="_blank" rel="noopener noreferrer">[KB15] Kingma, Ba: <i>Adam: A Method for Stochastic Optimization</i></a>
