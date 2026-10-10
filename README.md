@@ -598,7 +598,7 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
 **DATA PREPARATION**:
 - for $m=1,\ldots,N$:
     - for $k=0,\ldots,n-1$:
-        - construct $\mathcal{D}=(\ln(S^{1,m}_k), V^m_k, S^{1,m}_{k+1}-S^{1,m}_k,S^{2,m}_{k+1}-S^{2,m}_k,Z^m)$
+        - construct $\mathcal{D}=(\ln(S_k^{1,m}), V_k^m, S_{k+1}^{1,m}-S_k^{1,m},S_{k+1}^{2,m}-S_k^{2,m},Z^m)$
 - store resulting tensors as $\texttt{float32}$
   
 **9. Model construction, training and validation**
