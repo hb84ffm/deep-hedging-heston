@@ -650,7 +650,6 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
     - sort the losses $L^{(1)}\ge L^{(2)}\ge\cdots\ge L^{(N)}$
     - compute empirical sorted CVaR $\widehat{\mathrm{CVaR}}_\alpha = \frac{1}{\lfloor(1-\alpha)N\rfloor} \sum_{i=1}^{\lfloor(1-\alpha)N\rfloor}L^{(i)}$
     - compute empirical VaR $\widehat{\mathrm{VaR}}_\alpha = \inf \lbrace x: \frac{1}{N} |\lbrace m:L^m\le x\rbrace| \ge\alpha \rbrace$ 
-    - compute empirical VaR $\widehat{\mathrm{VaR}}_\alpha = \inf \lbrace  x: \frac{1}{N} \# \lbrace m:L^m\le x \rbrace  \ge\alpha \rbrace $
     - compare $w^\ast$ with $\widehat{\mathrm{VaR}}_\alpha$ 
     - compute the risk-adjusted price $p_0=q+J^\ast$
 
