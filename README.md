@@ -41,6 +41,7 @@ The repository provides an end-to-end pipeline across market simulation, pricing
 - matplotlib==3.10.5
 
 Exact pinned versions as in `requirements.txt`, required to reproduce the bit-identical reference values.
+
 ## 3. Installation
 
 Clone the repository:
@@ -113,6 +114,7 @@ dh_custom = DeepHedger( # specify the desired parameters
         nr_of_units=17,         
         activation='tanh',      
         oce_threshold_start=0.0))
+
 train_model = dh_custom.run() # train the specified ml model
 dh_custom.save_model("ml_models", "heston_15d_alpha_90") # save the model to folder with name, folder is "ml_models" and name is "heston_15d_alpha_90"  
 my_custom_model = DeepHedger.load_model("ml_models", "heston_15d_alpha_90")  # load the saved model  
