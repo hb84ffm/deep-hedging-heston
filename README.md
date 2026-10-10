@@ -649,13 +649,12 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
     - compute approximations of OCE objective $J^\ast = w^\ast+ \frac{1}{1-\alpha} \frac{1}{N} \sum_{m=1}^{N} \max \lbrace L^m-w^\ast,0 \rbrace $ 
     - sort the losses $L^{(1)}\ge L^{(2)}\ge\cdots\ge L^{(N)}$
     - compute empirical sorted CVaR $\widehat{\mathrm{CVaR}}_\alpha = \frac{1}{\lfloor(1-\alpha)N\rfloor} \sum_{i=1}^{\lfloor(1-\alpha)N\rfloor}L^{(i)}$
+    - compute empirical sorted CVaR $\widehat{CVaR_\alpha}=\frac{1}{\lfloor (1-\alpha)N \rfloor}\sum_{i=1}^{\lfloor(1-\alpha)N\rfloor} L^{(i)}$
     - compute empirical VaR $\widehat{\mathrm{VaR}}_\alpha = \inf \lbrace x: \frac{1}{N} |\lbrace m:L^m\le x\rbrace| \ge\alpha \rbrace$ 
     - compare $w^\ast$ with $\widehat{\mathrm{VaR}}_\alpha$ 
     - compute the risk-adjusted price $p_0=q+J^\ast$
 
-$\widehat{\mathrm{CVaR}}_{\alpha}=\frac{1}{\lfloor (1-\alpha)N \rfloor} \sum_{i=1}^{a}$ 
-
-$\widehat{CVaR_\alpha}=\frac{1}{\lfloor (1-\alpha)N \rfloor}\sum_{i=1}^{\lfloor(1-\alpha)N\rfloor} L^(i)$
+$\widehat{CVaR_\alpha}=\frac{1}{\lfloor (1-\alpha)N \rfloor}\sum_{i=1}^{\lfloor(1-\alpha)N\rfloor} L^{(i)}$
 
 **10. Benchmarking of ML model VS analytical estimates**
 
