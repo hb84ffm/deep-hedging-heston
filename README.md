@@ -655,7 +655,7 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
 
 $\widehat{\mathrm{CVaR}}_{\alpha}=\frac{1}{\lfloor (1-\alpha)N \rfloor} \sum_{i=1}^{a}$ 
 
-$\widehat{CVaR_\alpha}=\frac{1}{\lfloor (1-\alpha)N \rfloor}\sum_{i=1}^{\lfloor(1-\alpha)N\rfloor}$
+$\widehat{CVaR_\alpha}=\frac{1}{\lfloor (1-\alpha)N \rfloor}\sum_{i=1}^{\lfloor(1-\alpha)N\rfloor} L^(i)$
 
 **10. Benchmarking of ML model VS analytical estimates**
 
