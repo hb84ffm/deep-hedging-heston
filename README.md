@@ -307,7 +307,7 @@ $$
 The payoff coefficients of the call are for $(k \ge 1)$ given by 
 
 $$
-\chi_k = \text{Re}\left[\frac{e^{b + i u_k (b-a)} - e^{\ln K + i u_k (\ln K - a)}}{1 + i u_k}\right]
+\chi_k = \text{Re}[\frac{e^{b + i u_k (b-a)} - e^{\ln(K) + i u_k (\ln(K) - a)}}{1 + i u_k}]
 $$ 
 
 $$
