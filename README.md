@@ -618,10 +618,10 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
 - for $j=1,\ldots,200000$:
     - select the next mini-batch and denote its paths by $b=1,\ldots,B$ 
     - for $k=0,\ldots,n-1$:
-        - compute the holdings $(\delta^{1,b}_k,\delta^{2,b}_k)= F_{\theta_k}
-          (\ln S^{1,b}_k,V^b_k)$ 
+        - compute the holdings $(\delta_k^{1,b},\delta_k^{2,b})= F_{\theta_k}
+          (\ln S_k^{1,b},V_k^b)$ 
     - for $b=1,\ldots,B$:
-        - compute the terminal hedging error $\varepsilon^b =q-Z^b+ \sum_{k=0}^{n-1}[\delta^{1,b}_k (S^{1,b}_{k+1}-S^{1,b}_k) + \delta^{2,b}_k (S^{2,b}_{k+1}-S^{2,b}_k)]$
+        - compute the terminal hedging error $\varepsilon^b =q-Z^b+ \sum_{k=0}^{n-1}[\delta_k^{1,b} (S_{k+1}^{1,b}-S_k^{1,b}) + \delta_k^{2,b} (S_{k+1}^{2,b}-S_k^{2,b})]$
         - set $L^b=-\varepsilon^b$ 
     - compute the mini-batch OCE objective $J(\theta,w)= w+\frac{1}{1-\alpha}\frac{1}{B}\sum_{b=1}^{B}\max \lbrace L^b-w,0 \rbrace $
     - update all trainable parameters by one Adam step
