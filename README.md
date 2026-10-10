@@ -661,7 +661,7 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
     - for $m=1,\ldots,N$:
         - evaluate $\delta^{1,m}_k = \partial_su \bigl(t_k,S^{1,m}_k,V^m_k\bigr)$ and 
           $\delta^{2,m}_k = \frac{ \partial_vu (t_k,S^{1,m}_k,V^m_k)}{ \partial_vL (t_k,V^m_k)}$ 
-- compute modelhedge error $\varepsilon^m_{\mathrm{model}}= q-Z^m+\sum_{k=0}^{n-1} [\delta^{1,m}_k (S^{1,m}_{k+1}-S^{1,m}_k) + \delta^{2,m}_k (S^{2,m}_{k+1}-S^{2,m}_k)]$
+- compute modelhedge error $\varepsilon_{\mathrm{model}}^m= q-Z^m+\sum_{k=0}^{n-1} [\delta_k^{1,m} (S_{k+1}^{1,m}-S_k^{1,m}) + \delta_k^{2,m} (S_{k+1}^{2,m}-S_k^{2,m})]$
 - report the mean, standard deviation and sorted $\mathrm{CVaR}_\alpha$ of $\{\varepsilon^m_{\mathrm{model}}\}_{m=1}^{N}$
   
 ## 8. Sources
