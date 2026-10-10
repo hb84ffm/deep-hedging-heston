@@ -422,22 +422,22 @@ Since $(S_t^1,V_t)$ is Markov, the optimization is restricted to depend on curre
 
 **REDUCTION 2, DFNNS:** 
 
-Each $f_k$ is then approximated by a DFNN $F_{\theta_k}$ with network layers $\ell = 1, \dots, L$ and using input $x_0 = (\ln s, v)$ to compute 
+Each $f_k$ is then approximated by a DFNN $F_{\theta_k}$ with network layers $\ell = 1, \dots, L$ and using input $x_0 = (\ln(s), v)$ to compute 
 
 $$
 x_\ell = \underbrace{\sigma\bigl(A_\ell x_{\ell-1} + b_\ell\bigr)}_{\text{hidden layers}}$$ $$F_{\theta_k}(x_0) = \underbrace{A_L x_{L-1} + b_L}_{\text{linear output: } (\delta^1_k, \delta^2_k)}
 $$ 
 
-where each $A_\ell$ is a weight matrix, $b_\ell$ a bias vector and $\sigma$ a nonlinear activation applied componentwise and given by $\sigma(x) = \max(x, 0)$. The parametrized strategy is then 
+where each $A_\ell$ is a weight matrix, $b_\ell$ a bias vector and $\sigma$ a nonlinear activation applied componentwise and given by $\sigma(x) = \max \lbrace x, 0 \rbrace $. The parametrized strategy is then 
 
 $$
-\delta^{\theta}_k = F_{\theta_k}(\ln S^1_k, V_k)
+\delta^{\theta}_k = F_{\theta_k}(\ln(S^1_k), V_k)
 $$ 
 
 where $\theta$ collects the weights of all $n$ networks. Substituting $\delta^{\theta}$ into the loss of 7.1 yields 
 
 $$
-J(\theta, w) = w + \frac{1}{1-\alpha} \mathbb{E}[\max\{-\varepsilon(\delta^{\theta}) - w, 0\}]
+J(\theta, w) = w + \frac{1}{1-\alpha} \mathbb{E}[\max\lbrace -\varepsilon(\delta^{\theta}) - w, 0\rbrace]
 $$ 
 
 with 
@@ -459,8 +459,8 @@ The DFNNs approximate the Markov strategy functions $f_k$ arbitrarily well as th
 
 The expectation in $J$ is estimated on synthetic market paths (Section 7.4). It is replaced by the average over a mini-batch of $B$ scenarios randomly drawn from the (simulated) training set 
 
-$$FEHLER!
-J_B(\theta, w)= w + \frac{1}{1-\alpha} \underbrace{\frac{1}{B}\sum_{m=1}^{B}}_{\text{average over } B \text{ paths}} \max\{-\varepsilon(\omega_m) - w, 0\}
+$$
+J_B(\theta, w)= w + \frac{1}{1-\alpha} \underbrace{\frac{1}{B}\sum_{m=1}^{B}}_{\text{average over } B \text{ paths}} \max\lbrace -\varepsilon(\omega_m) - w, 0\rbrace
 $$  
 
 where $\omega_1, \dots, \omega_B$ are the drawn market scenarios and $\varepsilon(\omega_m)$ the terminal hedging error of strategy $\delta^{\theta}$ on scenario $\omega_m$. Because this objective is built from differentiable operations, its gradients are well defined, hence backpropagation applicable and stochastic gradient descent (Adam [KB15]) updates $\theta$ and $w$.
@@ -481,7 +481,7 @@ In this section we outline **our** implementation, which includes model assumpti
 - No short-selling restrictions, holdings are unbounded (linear output layer of the DFNNs, Section 7.5)
 - Trading only at the discrete rebalancing dates
 - The hedge portfolio is self financing after premium $q$ is collected at $t = 0$, no cash enters or leaves
-- A European vanilla call is shorted, with liability $Z=\max \{S^1_T-K,0\}$ 
+- A European vanilla call is shorted, with liability $Z=\max \lbrace S^1_T-K,0\rbrace $ 
 
 **2. Market and time parameters**
 
@@ -504,7 +504,7 @@ All parameters are fixed before simulation, training and validation. Defaults fo
 - The to be minimized loss function is the OCE representation of CVaR, in its parametrized form (over all network weights $\theta$ and threshold $w$) it is given by
 
 $$
-J(\theta, w) = w + 2 \mathbb{E}\Big[\max\Big\{-\Big(q - Z + \sum_{k=0}^{n-1}\Bigl(\bigl[F_{\theta_k}(\ln S^1_k, V_k)\bigr]_1 \cdot \bigl(S^1_{k+1} - S^1_k\bigr) + \bigl[F_{\theta_k}(\ln S^1_k, V_k)\bigr]_2 \cdot \bigl(S^2_{k+1} - S^2_k\bigr)\Bigr)\Big) - w, 0\Big\}\Big]
+J(\theta, w) = w + 2 \mathbb{E}[\max \lbrace  -(q - Z + \sum_{k=0}^{n-1}([F_{\theta_k}(\ln S^1_k, V_k)]_1 \cdot (S^1_{k+1} - S^1_k) + [F_{\theta_k}(\ln S^1_k, V_k)]_2 \cdot (S^2_{k+1} - S^2_k))) - w, 0 \rbrace ]
 $$ 
 
 where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the respective DFNN
@@ -519,7 +519,7 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
         - one affine map $z_2 = A^k_2 x_1 + b^k_2 \in \mathbb{R}^{17}$, followed by batch normalization
         - one hidden layer $\ell^k_3$ with $\dim(\ell^k_3)=17$ neurons, holding $x_2 = \sigma(\mathrm{BN}(z_2))$ 
         - one output layer $\ell^k_4$ with $\dim(\ell^k_4)=2$ neurons, computed by affine mapping $A^k_3 x_2 + b^k_3$, without batch normalization and without activation
-        - where componentwise applied activation $\sigma: \mathbb{R}^{17} \to \mathbb{R}^{17}$ is defined as $\sigma(x) = \max\{x, 0\}$ (ReLU)
+        - where componentwise applied activation $\sigma: \mathbb{R}^{17} \to \mathbb{R}^{17}$ is defined as $\sigma(x) = \max \lbrace x, 0 \lbrace $ (ReLU)
     - outputs $(\delta^1_k, \delta^2_k)$ 
 - The initial OCE threshold is set to $w = 0$, shared across all $k = 0, \ldots, 29$ and trained jointly with all weights
 
@@ -555,7 +555,7 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
 - Set $s_{\mathcal{D}^{\mathrm{test}}}=35$ as seed for testing data set 
 - for $m=1,\ldots,N$:
     - set $V^m_0=V_0$
-    - set $\ln S^{1,m}_0=\ln S_0^1$
+    - set $\ln(S^{1,m}_0)=\ln(S_0^1)$
     - set $A^m_0=0$
 - set $\nu=\frac{4\kappa\theta_{par}}{\xi^2}$
 - set $c=\frac{\xi^2(1-e^{-\kappa\mathrm{d}t})}{4\kappa}$
@@ -576,12 +576,12 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
 - for $m=1,\ldots,N$:
     - for $k=0,\ldots,n-1$:
         - draw one shock $G^m_k\sim N(0,1)$
-        - update $\ln S^{1,m}_{k+1}=\ln S^{1,m}_k + \frac{\rho}{\xi}\left( V^m_{k+1}-V^m_k-\kappa\theta_{par}\mathrm{d}t+\kappa I^m_k\right) -\frac12 I^m_k+\sqrt{(1-\rho^2)I^m_k} G^m_k$
+        - update $\ln(S^{1,m}_{k+1})=\ln(S^{1,m}_k) + \frac{\rho}{\xi}(V^m_{k+1}-V^m_k-\kappa\theta_{par}\mathrm{d}t+\kappa I^m_k) -\frac12 I^m_k+\sqrt{(1-\rho^2)I^m_k} G^m_k$
 
 **EXPONENTIATE**:
 - for $k=0,\ldots,n$:
     - for $m=1,\ldots,N$:
-        - set $S^{1,m}_k=e^{\ln S^{1,m}_k}$
+        - set $S^{1,m}_k=e^{\ln(S^{1,m}_k)}$
 
 **VARIANCE SWAP**:
 - for $k=0,\ldots,n$:
@@ -592,13 +592,14 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
 
 **PAYOFF**:
 - for $m=1,\ldots,N$:
-    - compute $Z^m=\max \{S^{1,m}_n-K,0\}$
+    - compute $Z^m=\max \lbrace S^{1,m}_n-K,0\lbrace $
 
 **DATA PREPARATION**:
 - for $m=1,\ldots,N$:
     - for $k=0,\ldots,n-1$:
-        - construct $\mathcal{D}=\left( \ln S^{1,m}_k, V^m_k, S^{1,m}_{k+1}-S^{1,m}_k,S^{2,m}_{k+1}-S^{2,m}_k,Z^m\right)$
+        - construct $\mathcal{D}=(\ln(S^{1,m}_k), V^m_k, S^{1,m}_{k+1}-S^{1,m}_k,S^{2,m}_{k+1}-S^{2,m}_k,Z^m)$
 - store resulting tensors as $\texttt{float32}$
+  
 **9. Model construction, training and validation**
 
 **INITIALIZATION**:
@@ -619,9 +620,9 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
         - compute the holdings $(\delta^{1,b}_k,\delta^{2,b}_k)= F_{\theta_k}
           (\ln S^{1,b}_k,V^b_k)$ 
     - for $b=1,\ldots,B$:
-        - compute the terminal hedging error $\varepsilon^b =q-Z^b+ \sum_{k=0}^{n-1}\left[\delta^{1,b}_k \bigl(S^{1,b}_{k+1}-S^{1,b}_k\bigr) + \delta^{2,b}_k \bigl(S^{2,b}_{k+1}-S^{2,b}_k\bigr) \right]$
+        - compute the terminal hedging error $\varepsilon^b =q-Z^b+ \sum_{k=0}^{n-1}[\delta^{1,b}_k (S^{1,b}_{k+1}-S^{1,b}_k) + \delta^{2,b}_k (S^{2,b}_{k+1}-S^{2,b}_k)]$
         - set $L^b=-\varepsilon^b$ 
-    - compute the mini-batch OCE objective $J(\theta,w)= w+\frac{1}{1-\alpha}\frac{1}{B}\sum_{b=1}^{B}\max(L^b-w,0)$
+    - compute the mini-batch OCE objective $J(\theta,w)= w+\frac{1}{1-\alpha}\frac{1}{B}\sum_{b=1}^{B}\max \lbrace L^b-w,0 \rbrace $
     - update all trainable parameters by one Adam step
     - if $j=1$ or $j\equiv0\pmod{5000}$:
         - evaluate on the full validation dataset $J_{\mathrm{val}} = w_j+ \frac{1}{1-\alpha} \frac{1}{N} \sum_{m=1}^{N}\max(L^m-w_j,0)$
@@ -641,13 +642,13 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
 - generate $\mathcal D^{\mathrm{test}}$ with seed $s_{\mathcal{D}^{\mathrm{test}}}=35$ using the procedure of step 7.6.8
 - for $\mathcal D\in \{\mathcal D^{\mathrm{val}},\mathcal D^{\mathrm{test}}\}$
     - for $m=1,\ldots,N$:
-        - compute terminal hedging error, with the ML holdings of the forward pass over $\mathcal D$: $\varepsilon^m = q-Z^m+\sum_{k=0}^{n-1} \left[\delta^{1,m}_k \bigl(S^{1,m}_{k+1}-S^{1,m}_k\bigr) + \delta^{2,m}_k \bigl(S^{2,m}_{k+1}-S^{2,m}_k\bigr)\right]$
+        - compute terminal hedging error, with the ML holdings of the forward pass over $\mathcal D$: $\varepsilon^m = q-Z^m+\sum_{k=0}^{n-1} [\delta^{1,m}_k (S^{1,m}_{k+1}-S^{1,m}_k) + \delta^{2,m}_k (S^{2,m}_{k+1}-S^{2,m}_k)]$
         - set $L^m=-\varepsilon^m$
     - compute mean and standard deviation of $\{\varepsilon^m\}_{m=1}^{N}$ 
-    - compute approximations of OCE objective $J^\ast = w^\ast+ \frac{1}{1-\alpha} \frac{1}{N} \sum_{m=1}^{N} \max(L^m-w^\ast,0)$ 
+    - compute approximations of OCE objective $J^\ast = w^\ast+ \frac{1}{1-\alpha} \frac{1}{N} \sum_{m=1}^{N} \max \lbrace L^m-w^\ast,0 \rbrace $ 
     - sort the losses $L^{(1)}\ge L^{(2)}\ge\cdots\ge L^{(N)}$
     - compute empirical sorted CVaR $\widehat{\mathrm{CVaR}}_\alpha = \frac{1}{\lfloor(1-\alpha)N\rfloor} \sum_{i=1}^{\lfloor(1-\alpha)N\rfloor}L^{(i)}$
-    - compute empirical VaR $\widehat{\mathrm{VaR}}_\alpha = \inf \left\{ x: \frac{1}{N} \#\{m:L^m\le x\} \ge\alpha \right\}$
+    - compute empirical VaR $\widehat{\mathrm{VaR}}_\alpha = \inf \lbrace  x: \frac{1}{N} \# \lbrace m:L^m\le x \rbrace  \ge\alpha \rbrace $
     - compare $w^\ast$ with $\widehat{\mathrm{VaR}}_\alpha$ 
     - compute the risk-adjusted price $p_0=q+J^\ast$
       
@@ -658,8 +659,8 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
     - set $\tau_k=T-k\mathrm{d}t$
     - for $m=1,\ldots,N$:
         - evaluate $\delta^{1,m}_k = \partial_su \bigl(t_k,S^{1,m}_k,V^m_k\bigr)$ and 
-          $\delta^{2,m}_k = \frac{ \partial_vu \bigl(t_k,S^{1,m}_k,V^m_k\bigr)}{ \partial_vL \bigl(t_k,V^m_k\bigr)}$ 
-- compute modelhedge error $\varepsilon^m_{\mathrm{model}}= q-Z^m+\sum_{k=0}^{n-1} \left[\delta^{1,m}_k \bigl(S^{1,m}_{k+1}-S^{1,m}_k\bigr) + \delta^{2,m}_k \bigl(S^{2,m}_{k+1}-S^{2,m}_k\bigr) \right]$
+          $\delta^{2,m}_k = \frac{ \partial_vu (t_k,S^{1,m}_k,V^m_k)}{ \partial_vL (t_k,V^m_k)}$ 
+- compute modelhedge error $\varepsilon^m_{\mathrm{model}}= q-Z^m+\sum_{k=0}^{n-1} [\delta^{1,m}_k (S^{1,m}_{k+1}-S^{1,m}_k) + \delta^{2,m}_k (S^{2,m}_{k+1}-S^{2,m}_k)]$
 - report the mean, standard deviation and sorted $\mathrm{CVaR}_\alpha$ of $\{\varepsilon^m_{\mathrm{model}}\}_{m=1}^{N}$
   
 ## 8. Sources
