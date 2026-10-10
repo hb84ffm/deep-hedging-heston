@@ -519,7 +519,7 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
         - one affine map $z_2 = A^k_2 x_1 + b^k_2 \in \mathbb{R}^{17}$, followed by batch normalization
         - one hidden layer $\ell^k_3$ with $\dim(\ell^k_3)=17$ neurons, holding $x_2 = \sigma(\mathrm{BN}(z_2))$ 
         - one output layer $\ell^k_4$ with $\dim(\ell^k_4)=2$ neurons, computed by affine mapping $A^k_3 x_2 + b^k_3$, without batch normalization and without activation
-        - where componentwise applied activation $\sigma: \mathbb{R}^{17} \to \mathbb{R}^{17}$ is defined as $\sigma(x) = \max \lbrace x, 0 \lbrace $ (ReLU)
+        - where componentwise applied activation $\sigma: \mathbb{R}^{17} \to \mathbb{R}^{17}$ is defined as $\sigma(x) = \max \lbrace x, 0 \rbrace$ (ReLU)
     - outputs $(\delta^1_k, \delta^2_k)$ 
 - The initial OCE threshold is set to $w = 0$, shared across all $k = 0, \ldots, 29$ and trained jointly with all weights
 
