@@ -8,16 +8,16 @@ In contrast to classical delta hedging (optimal only in frictionless, complete m
 
 To showcase our implementation's correctness, we simulate a synthetic Heston market, for which we show that the ML estimates are close to analytical estimations.
 
-The repository provides an end-to-end pipeline across market simulation, pricing, strategy training, validation, PnL/portfolio calculation and benchmarking of ML estimates against analytical solutions. Furthermore, a trained model `heston_30d_alpha_50` (reproducing the Heston market setting in [Buh01]), is shipped by which the user can experiment with or even train new ML models to run experiments across new market regimes.
+The repository provides an end-to-end pipeline across market simulation, pricing, strategy training, validation, PnL/portfolio calculation and benchmarking of ML estimates against analytical solutions. Furthermore, a trained model `heston_30d_alpha_50` (reproducing the Heston market setting in [Buh01](#Buh01)), is shipped by which the user can experiment with or even train new ML models to run experiments across new market regimes.
 
 ## 1. Features
 
 - **Market simulation under Heston** with:
-  - exact CIR sampling (noncentral $\chi^2$) for the variance paths $V_t$ (see [LBAK04]) 
-  - simplified Broadie-Kaya scheme for stock paths $S_t^1$, based on sampled variance (see [BroKay03]) 
+  - exact CIR sampling (noncentral $\chi^2$) for the variance paths $V_t$ (see [LBAK04](#LBAK04)) 
+  - simplified Broadie-Kaya scheme for stock paths $S_t^1$, based on sampled variance (see [BroKay03](#BroKay03)) 
 - **Analytical pricing** of:
-  - risk-neutral premium $q$ (see [FangOosterlee08])
-  - deltas $\delta_t^1, \delta_t^2$ (stock and variance-swap units, see [FangOosterlee08])
+  - risk-neutral premium $q$ (see [FangOosterlee08](#FangOosterlee08))
+  - deltas $\delta_t^1, \delta_t^2$ (stock and variance-swap units, see [FangOosterlee08](#FangOosterlee08))
 - **Machine learning design (computational graph, training, validation)** including:
   - Hedge calculations in execution order:<br> 
      - inputs $(\log S_k^1, V_k)$, $\Delta S^1_k$, $\Delta S^2_k$, payoff $\max \lbrace {S^1_T - K,0}\rbrace$, premium $q$<br> 
@@ -76,7 +76,7 @@ There are two ways to obtain a model.
 ```python
 from deep_hedging_heston import DeepHedger
 dh = DeepHedger.load_model("ml_models", "heston_30d_alpha_50") # load the model, make sure you set the correct path to where the model is stored
-dh.experiment(seed=4) # runs the experiment, where seed=4 is the reference experiment from [Buh01] with terminal errors -1.0672 (analytical) / -1.0272 (ML)
+dh.experiment(seed=4) # runs the experiment, where seed=4 is the reference experiment from [Buh01](#Buh01) with terminal errors -1.0672 (analytical) / -1.0272 (ML)
 ```
 
 ### 2. Train your own model:
@@ -132,7 +132,7 @@ my_custom_model.experiment(seed=75) # run an experiment
 | `DFNNParameters(...)` | 5 optional parameters | instantiates the object | `DFNNParameters` object |
 
 **We provide detailed example workflows on how to load, train, save and run the ML models, please see folder `examples/` under**:
-- `01_load_the_basemodel_and_start_experiment.ipynb` loads the shipped model `heston_30d_alpha_50` to run reference experiment from [Buh01] and test it on new market scenarios.
+- `01_load_the_basemodel_and_start_experiment.ipynb` loads the shipped model `heston_30d_alpha_50` to run reference experiment from [Buh01](#Buh01) and test it on new market scenarios.
 - `02_train_your_own_model_and_start_experiment.ipynb` configures a new ML model with market and risk preferences, trains, saves, loads the ML model plus experiments with it.
 ## 5. Package structure
 
@@ -159,7 +159,7 @@ deep-hedging-heston/
 ```
 ## 6. Reference values
 
-The shipped model `heston_30d_alpha_50` reproduces the Heston-reference experiment of [Buh01], very closely. The numbers below are our exact results the shipped model produces and the test suite (`pytest tests/`) recomputes them from the checkpoint. A passing testrun therefore certifies that your installation reproduces these results, if you modify the pipeline code, a failing test tells you which of these quantities your change has shifted.
+The shipped model `heston_30d_alpha_50` reproduces the Heston-reference experiment of [Buh01](#Buh01), very closely. The numbers below are our exact results the shipped model produces and the test suite (`pytest tests/`) recomputes them from the checkpoint. A passing testrun therefore certifies that your installation reproduces these results, if you modify the pipeline code, a failing test tells you which of these quantities your change has shifted.
 
 | Quantity | This repository | Paper [Buh01] |
 |---|---|---|
@@ -260,9 +260,9 @@ $$
 q = u(0, S_0^1, V_0)
 $$ 
 
-To compute $u$ and its partial derivatives we use the Fourier-cosine expansion of [FangOosterlee08], evaluated at a generic state $(s, v) = (S_t^1, V_t)$ with remaining maturity $\tau = T - t$.
+To compute $u$ and its partial derivatives we use the Fourier-cosine expansion of [FangOosterlee08](#FangOosterlee08), evaluated at a generic state $(s, v) = (S_t^1, V_t)$ with remaining maturity $\tau = T - t$.
  
-The truncated log-stock interval in our implementation is chosen as (see [Sey15]) 
+The truncated log-stock interval in our implementation is chosen as (see [Sey15](#Sey15)) 
 
 $$
 h = 10\sqrt{v\tau} + \bigl|\ln(s) - \ln( K)\bigr|
@@ -320,7 +320,7 @@ $$
 
 where $\psi_0$ is the limit value at $u_0 = 0$ to avoid zero-division.
 
-Differentiating the series term by term over interval $[a, b]$ (as implemented: one shared interval per batch) gives both analytical deltas (as in Eq. (5.6) of [Buh01]) in closed series form 
+Differentiating the series term by term over interval $[a, b]$ (as implemented: one shared interval per batch) gives both analytical deltas (as in Eq. (5.6) of [Buh01](#Buh01)) in closed series form 
 
 $$
 \delta_t^1 = \frac{\partial u}{\partial s} = \frac{2}{b-a} \frac{1}{s}\sum_{k=0}^{N_{cos}-1}{}' \text{Re}[i u_k  e^{i u_k \ln(s) + D(u_k)v}(\chi_k - K\psi_k) e^{C(u_k) - i u_k a}]
@@ -335,7 +335,7 @@ with $\partial_v L(t,v) = \frac{1}{\kappa}\bigl(1 - e^{-\kappa \tau}\bigr)$ as v
 In simple words: $\delta_t^1$ is the sensitivity of the price to the stock, $\delta_t^2$ is the sensitivity to variance divided by the variance sensitivity
 of the swap (units of the swap to hold).
 
-In continuous time, the holding $\delta_t = (\delta_t^1, \delta_t^2)$ would replicate the payoff exactly (Eq. (5.5) of [Buh01]) via 
+In continuous time, the holding $\delta_t = (\delta_t^1, \delta_t^2)$ would replicate the payoff exactly (Eq. (5.5) of [Buh01](#Buh01)) via 
 
 $$
 Z = q + \int_0^T \Bigl( \delta_t^1\mathrm{d}S_t^1 + \delta_t^2\mathrm{d}S_t^2 \Bigr)
@@ -345,7 +345,7 @@ On the discrete grid of 7.1 this replication fails and the residual is the hedgi
 
 ### 7.4 Path simulation
 
-The training and validation data necessary for Section 7.5 are in our case simulated. Paths of the hedging instruments and the payoff are generated under $\mathbb{Q}$. The variance paths are then drawn from their exact CIR transition density (no Euler discretization) and the stock paths follow the simplified Broadie-Kaya scheme ([BroKay03], [LBAK04, Sec. 4.2.2]), conditional on the drawn variance paths. The variance swap is then computed (not sampled) using the realized variance of the path and the drawn state. All random draws follow a fixed order, first variance, then stock.
+The training and validation data necessary for Section 7.5 are in our case simulated. Paths of the hedging instruments and the payoff are generated under $\mathbb{Q}$. The variance paths are then drawn from their exact CIR transition density (no Euler discretization) and the stock paths follow the simplified Broadie-Kaya scheme ([BroKay03](#BroKay03) and [LBAK04, Sec. 4.2.2](#LBAK04)), conditional on the drawn variance paths. The variance swap is then computed (not sampled) using the realized variance of the path and the drawn state. All random draws follow a fixed order, first variance, then stock.
 
 **VARIANCE VIA EXACT CIR SAMPLING:** 
 
@@ -451,7 +451,7 @@ This turns the optimization over the infinite-dimensional space of admissible he
 
 **WHY THE REDUCTIONS ARE SOUND:** 
 
-The DFNNs approximate the Markov strategy functions $f_k$ arbitrarily well as their capacity increases  (see [Hor91]). Therefore, the computed values for $J(\theta,w)$ converge (in the limit) to the optimal value $J^\ast$ (see [Buh01, Proposition 4.9]). Hence optimizing the DFNN parameters provides an approximation of the optimal strategy up to an arbitrarily small error value.
+The DFNNs approximate the Markov strategy functions $f_k$ arbitrarily well as their capacity increases  (see [Hor91](#Hor91)). Therefore, the computed values for $J(\theta,w)$ converge (in the limit) to the optimal value $J^\ast$ (see [Buh01, Proposition 4.9]). Hence optimizing the DFNN parameters provides an approximation of the optimal strategy up to an arbitrarily small error value.
 
 
 
@@ -463,14 +463,14 @@ $$
 J_B(\theta, w)= w + \frac{1}{1-\alpha} \underbrace{\frac{1}{B}\sum_{m=1}^{B}}_{\text{average over } B \text{ paths}} \max\lbrace -\varepsilon(\omega_m) - w, 0\rbrace
 $$  
 
-where $\omega_1, \dots, \omega_B$ are the drawn market scenarios and $\varepsilon(\omega_m)$ the terminal hedging error of strategy $\delta^{\theta}$ on scenario $\omega_m$. Because this objective is built from differentiable operations, its gradients are well defined, hence backpropagation applicable and stochastic gradient descent (Adam [KB15]) updates $\theta$ and $w$.
+where $\omega_1, \dots, \omega_B$ are the drawn market scenarios and $\varepsilon(\omega_m)$ the terminal hedging error of strategy $\delta^{\theta}$ on scenario $\omega_m$. Because this objective is built from differentiable operations, its gradients are well defined, hence backpropagation applicable and stochastic gradient descent (Adam [KB15](#KB15)) updates $\theta$ and $w$.
 
 **What enters the training.** Only (simulated) paths for $(\log (S_t^1), V_t)$ and their resulting $\varepsilon(\delta^{\theta})$, neither pricing model nor greeks are used. The pricing machinery of 7.3 is only used for benchmarking, this means calculating the model-delta hedge against which the ML hedge is evaluated.
 
-**What comes out.** After training, the output is the learned hedge $\delta^{\theta^\ast}$, whose loss approximates the minimal $J^\ast$ (residual risk after collecting the premium $q$). The associated risk-adjusted price is then $p_0 = q + J^\ast$ (by Proposition 3.10(ii) of [Buh01], $p_0 \ge q$).
+**What comes out.** After training, the output is the learned hedge $\delta^{\theta^\ast}$, whose loss approximates the minimal $J^\ast$ (residual risk after collecting the premium $q$). The associated risk-adjusted price is then $p_0 = q + J^\ast$ (by Proposition 3.10(ii) of [Buh01](#Buh01), $p_0 \ge q$).
 
 ### 7.6 Settings, synthetic data simulation and algorithm
-In this section we outline **our** implementation, which includes model assumptions, parameter definition, path simulation, network architecture, computational graph design, training loop and validation. We closely follow the design in [Buh01].
+In this section we outline **our** implementation, which includes model assumptions, parameter definition, path simulation, network architecture, computational graph design, training loop and validation. We closely follow the design in [Buh01](#Buh01).
 
 **1. Assumptions**
 - The market is driven by the Heston stochastic volatility model (see 7.2) under the risk-neutral measure $\mathbb{Q}$
@@ -485,7 +485,7 @@ In this section we outline **our** implementation, which includes model assumpti
 
 **2. Market and time parameters**
 
-All parameters are fixed before simulation, training and validation. Defaults follow Section 5 of [Buh01].
+All parameters are fixed before simulation, training and validation. Defaults follow Section 5 of [Buh01](#Buh01).
 
 - Initial spot at $S_0^1 = 100$
 - Initial variance at $V_0 = 0.04$ 
