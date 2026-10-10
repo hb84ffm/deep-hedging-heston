@@ -657,10 +657,6 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
     - compute the risk-adjusted price $p_0=q+J^\ast$
 
 
-$\widehat{\mathrm{CVaR}}_\alpha =
-\frac{1}{\lceil (1-\alpha)N \rceil}
-\sum_{i=1}^{\lceil (1-\alpha)N \rceil} L^{(i)}$
-
 **10. Benchmarking of ML model VS analytical estimates**
 
 **ANALYTICAL BENCHMARK** (on $\mathcal D^{\mathrm{val}}$):
