@@ -639,11 +639,11 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
 - with the default $\lfloor N/B\rfloor=390$ and $P=3$ the remaining contribution of the initial statistics is $0.99^{1173}\approx7.6\times10^{-6}$
 
 **VALIDATION**:
-- all forward passes use the calibrated moving statistics $(\bar\mu_r,\bar s_r^2)$, not batch statistics
+- all forward passes use the calibrated moving statistics $(\tilde{\mu_r} ,\tilde{s_r}^2)$, not batch statistics
 - generate $\mathcal D^{\mathrm{test}}$ with seed $s_{\mathcal{D}^{\mathrm{test}}}=35$ using the procedure of step 7.6.8
 - for $\mathcal D\in \{\mathcal D^{\mathrm{val}},\mathcal D^{\mathrm{test}}\}$
     - for $m=1,\ldots,N$:
-        - compute terminal hedging error, with the ML holdings of the forward pass over $\mathcal D$: $\varepsilon^m = q-Z^m+\sum_{k=0}^{n-1} [\delta^{1,m}_k (S^{1,m}_{k+1}-S^{1,m}_k) + \delta^{2,m}_k (S^{2,m}_{k+1}-S^{2,m}_k)]$
+        - compute terminal hedging error, with the ML holdings of the forward pass over $\mathcal D$: $\varepsilon^m = q-Z^m+\sum_{k=0}^{n-1} [\delta_k^{1,m} (S_{k+1}^{1,m}-S_k^{1,m}) + \delta_k^{2,m} (S_{k+1}^{2,m}-S_k^{2,m})]$
         - set $L^m=-\varepsilon^m$
     - compute mean and standard deviation of $\{\varepsilon^m\}_{m=1}^{N}$ 
     - compute approximations of OCE objective $J^\ast = w^\ast+ \frac{1}{1-\alpha} \frac{1}{N} \sum_{m=1}^{N} \max \lbrace L^m-w^\ast,0 \rbrace $ 
