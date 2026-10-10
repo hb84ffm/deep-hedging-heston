@@ -1,3 +1,29 @@
+```mermaid
+flowchart TD
+    A([Start]) --> B["Import the package: from deep_hedging_heston import DeepHedger"]
+    B --> C["DeepHedger.load_model(folderpath, name_of_ML_model)<br/>e.g. ml_models, heston_30d_alpha_50"]
+    C --> D["Read parameter file: market settings, alpha,<br/>architecture, learning curve"]
+    D --> E["Reset TensorFlow, build the model:<br/>one DFNN per rebalancing date plus OCE threshold w"]
+    E --> F["Restore checkpoint: network weights,<br/>threshold w, batch norm statistics"]
+    F --> G["Recompute premium q with the<br/>analytical COS pricer"]
+    G --> H["Ready-to-use DeepHedger object"]
+    H --> I["dh.experiment(seed)"]
+    I --> J{"Model available?"}
+    J -->|No| K["RuntimeError:<br/>call load_model or run first"]
+    K --> Z([End])
+    J -->|Yes| L["Simulate ONE market path:<br/>exact CIR variance, simplified Broadie-Kaya stock"]
+    L --> M["Analytical deltas for every date:<br/>COS pricer, Fang-Oosterlee"]
+    L --> N["ML deltas: forward pass<br/>through all DFNNs, training = False"]
+    M --> O["PnL and portfolio series<br/>for both hedges"]
+    N --> O
+    O --> P["Terminal hedging errors:<br/>epsilon = q - payoff + sum of trading gains"]
+    P --> Q["Plot 4x2 charts, print both errors,<br/>return dict with figure, eps_formula, eps_ml"]
+    Q --> R{"Try another scenario?"}
+    R -->|"Yes, new seed"| I
+    R -->|No| Z
+
+
+
 # Deep Hedging in a Heston Market
 
 This repository implements the Deep Hedging algorithm (see [Buh01](#Buh01), which hedges a short position in a European call through reinforcement learning.
