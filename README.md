@@ -626,7 +626,7 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
     - compute the mini-batch OCE objective $J(\theta,w)= w+\frac{1}{1-\alpha}\frac{1}{B}\sum_{b=1}^{B}\max \lbrace L^b-w,0 \rbrace $
     - update all trainable parameters by one Adam step
     - if $j=1$ or $j\equiv0\pmod{5000}$:
-        - evaluate on the full validation dataset $J_{\mathrm{val}} = w_j+ \frac{1}{1-\alpha} \frac{1}{N} \sum_{m=1}^{N}\max(L^m-w_j,0)$
+        - evaluate on the full validation dataset $J_{\mathrm{val}} = w_j+ \frac{1}{1-\alpha} \frac{1}{N} \sum_{m=1}^{N}\max \lbrace L^m-w_j,0 \rbrace$
         - record $\bigl(j,J(\theta_j,w_j),J_{\mathrm{val}}\bigr)$ where $\theta_j,w_j$ are the parameter values after step $j$ 
 
 **BATCH-NORMALIZATION CALIBRATION**:
