@@ -607,7 +607,7 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
 - Set $s_{\mathrm{TF}}$ as seed for TensorFlow operations 
 - for $k=0,\ldots,n-1$:
     - construct one DFNN $F_{\theta_k}$ with the architecture from step 7.6.4
-    - initialize each weight matrix by Glorot uniform $A_\ell\sim U\!\left[-\sqrt{\frac{6}{n_{\mathrm{in}}+n_{\mathrm{out}}}},\sqrt{\frac{6}{n_{\mathrm{in}}+n_{\mathrm{out}}}}\right]$ where $\ell\in\{1,2,3\}$ indexes the three affine maps and $n_{\mathrm{in}},n_{\mathrm{out}}$ are their input and output dimensions
+    - initialize each weight matrix by Glorot uniform $A_\ell\sim U\left[-\sqrt{\frac{6}{n_{\mathrm{in}}+n_{\mathrm{out}}}},\sqrt{\frac{6}{n_{\mathrm{in}}+n_{\mathrm{out}}}}\right]$ where $\ell\in\{1,2,3\}$ indexes the three affine maps and $n_{\mathrm{in}},n_{\mathrm{out}}$ are their input and output dimensions
     - initialize biases and batch-normalization parameters by $b_\ell=0$, $\gamma_r=1$, $\beta_r=0$
 - initialize the trainable OCE threshold by $w=0$ 
 - store the premium $q$ from step 7.6.7 in the model
