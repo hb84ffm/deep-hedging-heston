@@ -20,7 +20,7 @@ The repository provides an end-to-end pipeline across market simulation, pricing
   - deltas $\delta_t^1, \delta_t^2$ (stock and variance-swap units, see [FangOosterlee08])
 - **Machine learning design (computational graph, training, validation)** including:
   - Hedge calculations in execution order:<br> 
-     - inputs $(\log S_k^1, V_k)$, $\Delta S^1_k$, $\Delta S^2_k$, payoff $\max \lbrace {S^1_T - K,0}\rbrace$ $(S^1_T - K)^+$, premium $q$<br> 
+     - inputs $(\log S_k^1, V_k)$, $\Delta S^1_k$, $\Delta S^2_k$, payoff $\max \lbrace {S^1_T - K,0}\rbrace$, premium $q$<br> 
      - one DFNN per rebalancing step with layers ($2 \to 17 \to 17 \to 2$) with batch normalization before activations<br>
      - deltas $\delta_k$<br> 
      - self-financed PnL  $\sum_k (\delta_k^1 \cdot \Delta S_k^1+\delta_k^2 \cdot \Delta S_k^2)$<br>
