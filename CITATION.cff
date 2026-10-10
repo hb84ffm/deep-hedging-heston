@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+title: Deep Hedging in a Heston Market
+message: >-
+  If you use this software, please cite it as below.
+authors:
+  - name: hb84ffm
+type: software
+license: MIT
+repository-code: "https://github.com/hb84ffm/deep-hedging-heston"
+abstract: >-
+  Deep hedging for a European call in a Heston market: deep feed-forward
+  neural networks learn daily hedge positions in a stock and an idealized
+  variance swap, minimizing the OCE representation of a CVaR loss on the
+  terminal hedging error, following Buehler, Gonon, Teichmann and Wood
+  (arXiv:1802.03042). The package ships with a pre-trained model, example
+  notebooks and a pytest reference-value test suite.
+keywords:
+  - deep-learning
+  - deep-hedging
+  - heston
+  - hedging
+  - tensorflow
+  - quantitative-finance
+  - stochastic-differential-equations
+  - optimization
+version: v1.0.0
+year: 2026
+date-released: "2025-09-11"
