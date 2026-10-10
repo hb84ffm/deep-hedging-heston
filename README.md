@@ -653,7 +653,7 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
     - compare $w^\ast$ with $\widehat{\mathrm{VaR}}_\alpha$ 
     - compute the risk-adjusted price $p_0=q+J^\ast$
 
-$\widehat{\mathrm{CVaR}}_{\alpha}=\frac{1}{\floor{a}}$
+$\widehat{\mathrm{CVaR}}_{\alpha}=\frac{1}{\lfloor a \rfloor}$
 
 **10. Benchmarking of ML model VS analytical estimates**
 
