@@ -279,7 +279,7 @@ $$
 On this interval the price is the cosine series 
 
 $$
-u(t, s, v) = \frac{2}{b-a}\sum_{k=0}^{N_{cos}-1}{}' \text{Re}\Big[\underbrace{e^{i u_k \ln s + D(u_k)v}}_{\text{state } (s,v)}\underbrace{\bigl(\chi_k - K\psi_k\bigr) e^{C(u_k) - i u_k a}}_{\text{state-independent}}\Big]
+u(t, s, v) = \frac{2}{b-a}\sum_{k=0}^{N_{cos}-1}{}' \text{Re}\Big[\underbrace{e^{i u_k \ln(s) + D(u_k)v}}_{\text{state } (s,v)}\underbrace{\bigl(\chi_k - K\psi_k\bigr) e^{C(u_k) - i u_k a}}_{\text{state-independent}}\Big]
 $$ 
 
 $$
@@ -297,7 +297,7 @@ g(u) = \frac{\kappa - \rho\xi i u - d(u)}{\kappa - \rho\xi i u + d(u)}
 $$  
 
 $$
-C(u) = \frac{\kappa\theta_{par}}{\xi^2}\left[(\kappa - \rho \xi i u - d(u)) \tau - 2\ln\frac{1 - g(u) e^{-d(u) \tau}}{1 - g(u)}\right]
+C(u) = \frac{\kappa\theta_{par}}{\xi^2}\left[(\kappa - \rho \xi i u - d(u)) \tau - 2\ln(\frac{1 - g(u) e^{-d(u) \tau}}{1 - g(u)}\right)]
 $$ 
 
 $$
