@@ -10,19 +10,24 @@ from .modeltraining import DeepHedgingTrainer
 from .evaluation    import HedgeEvaluation
 from .experiment    import run_experiment
 
-
 class DeepHedger:
-    """The orchestration of all other modules: 
-    - Creates all objects and runs the complete pipeline in a fixed order.
-    - Constructor = build (parameters + q, seconds, no training). 
-    - run() = execute (simulation, training incl. the J(val) curve, BN calibration, evaluation).
-    - Results stored in self.results."""
+    """Entry point of the package, gives you the option to build, train, save, load and evaluate a
+    deep hedging model for a European call in a Heston market.
 
+    - DeepHedger(...)                            instantiates the DeepHedger class
+    - .run()                                     allows you to train and evaluate a model
+    - .save_model(folderpath, name_of_ML_model)  allows you to save a trained model with name name_of_ML_model to folderpath
+    - DeepHedger.load_model(...)                 allows you to load a saved model, ready to use
+    - .experiment(seed)                          allows you to build a new market scenario and check the ML hedge vs analytical benchmark
+    """
+    
     def __init__(self, training_parameters=None, heston_parameters=None, dfnn_parameters=None):
-        """ - training_parameters first, the most commonly overridden block (mini vs. full).
-        - None -> paper defaults. 
-        - Fetches q from the COS pricer. 
-        - No training."""
+        """ All three arguments are optional: DeepHedger() with no argument gives you the paper setting of the shipped model heston_30d_alpha_50.
+        - heston_parameters:   HestonParameters object, sets the market, the strike and time grid
+        - training_parameters: TrainingParameters object, sets the CVaR level alpha, Adam settings, number of paths and all seeds
+        - dfnn_parameters:     DFNNParameters object, sets the hidden width, activation and startvalue of w
+        """
+        
         self.training_parameters = training_parameters or TrainingParameters()
         self.heston_parameters = heston_parameters or HestonParameters()
         self.dfnn_parameters = dfnn_parameters or DFNNParameters()
@@ -32,10 +37,16 @@ class DeepHedger:
         self.premium = float(premium_array[0])                                                  # q (premium) — the only market output the ML needs
 
     def run(self):
-        """Simulation -> model -> training (with J(val) measurements for the learning
-        curve) -> BN calibration -> evaluation (val + OOS + model hedge).
-        - Validation paths simulated BEFORE training, since trainer needs them in training for J(val) curve. 
-        - Same seeds as before -> identical data, identical results."""
+        """Allows you to build and train a new model: simulates the market paths,
+        trains all networks and the OCE threshold w, calibrates batch normalization and
+        evaluates the hedge on validation data, out-of-sample data and against the
+        analytical benchmark.
+
+        Takes no arguments, all settings come from the constructor. Returns and stores a
+        results dictionary: self.results with keys 'premium', 'result_val', 'result_oos',
+        'deep_result', 'model_result'.
+        """
+        
         training_parameters = self.training_parameters
 
         reset_tensorflow(training_parameters.seed_tf)                                           # clean session + reproducible initial weights
@@ -74,16 +85,35 @@ class DeepHedger:
         return self.results
 
     def experiment(self, seed):
-        """One-click experiment: 
-        - ONE random path, benchmark vs. ML model, 4 rows of 2 charts.
-        - Only after run() or load_model()."""
+        """Allows you to build a new market scenario and check its performance by comparing 
+        ML hedge vs the analytical benchmark: simulates one path, hedges it with the ML model
+        and also with the analytical benchmark and plots 4x2 charts (market, hedge positions, 
+        PnL/portfolio, terminalerrors, learning curve).
+
+        - seed: must be non-negative integer, same seed gives same scenario, seed=4 reproduces the
+          reference result (terminal errors -1.0672 analytical / -1.0272 ML).
+        
+        - Returns a dict with 'figure', 'eps_formula' and 'eps_ml' (also printed).
+        
+        - Requires run() or load_model() first.
+        """
+        
         if not hasattr(self, 'model'):
             raise RuntimeError("No model available — run run() (train) or load_model() (load) first.")
         return run_experiment(self.model, self.heston_parameters, seed)
 
     def save_model(self, directory, name):
-        """Saves checkpoint (weights + w + BN statistics) and the parameter file,  
-        training history (learning curve) goes into parameter file."""
+        """Allows you to save a trained model with specifying its name by name and the path to save the 
+        model by folderpath. writes the parameter file <name>_parameters.json (settings and learning curve) 
+        and the checkpoint files <name>-1.* (weights, w, batch norm statistics).
+
+        - directory: folder path, created if it does not exist, e.g. "ml_models"
+
+        - name: name of the ML model, convention 'heston_<days>d_alpha_<alpha>', e.g. "heston_15d_alpha_90"
+        
+        - Requires run() first.
+        """
+        
         os.makedirs(directory, exist_ok=True)                                                   # FIRST: make sure the folder exists
         history = getattr(self, 'history', None) or []                                          # curve; empty if run() never ran
         parameters_json = dict(                                                                 # THEN: parameter JSON
@@ -103,12 +133,17 @@ class DeepHedger:
 
     @classmethod
     def load_model(cls, directory, name):
-        """Makes a saved model available: 
-        - Reads the parameter JSON (incl. learning curve)
-        - Builds the model (same architecture as in training)
-        - Writes the checkpoint values into it. 
-        - NO training, no simulation. 
-        - Old models without a curve -> empty history -> placeholder text."""
+        """Allows you to load a saved model to experiment with it: reads the files written by
+        save_model(), rebuilds the architecture, restores the weights and recomputes the
+        premium q.
+        
+        - directory: folder path containing the files, e.g. "ml_models"
+        
+        - name: name of the ML model, e.g. "heston_30d_alpha_50"
+        
+        - Returns a ready-to-use DeepHedger, call .experiment(seed) directly.
+        """
+        
         with open(directory + "/" + name + "_parameters.json") as file:
             p = json.load(file)
         heston = HestonParameters(v0=p['v0'], 
