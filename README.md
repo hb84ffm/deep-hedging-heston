@@ -511,7 +511,7 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
 
 **4. Network architecture**
 - For each $k=0,\ldots,29$ exists one $F_{\theta_k}$ (DFNN), which:
-    - takes $x_0=(\ln S^1_k, V_k)$ as input (2 features)
+    - takes $x_0=(\ln(S^1_k), V_k)$ as input (2 features)
     - consists of layers $\ell^k=(\ell^k_1,\ell^k_2,\ell^k_3, \ell^k_4)$ with architecture:
         - one input layer $\ell^k_1$ with $\dim(\ell^k_1)=2$ neurons
         - one affine map $z_1 = A^k_1 x_0 + b^k_1 \in \mathbb{R}^{17}$, followed by batch normalization
