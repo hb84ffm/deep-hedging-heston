@@ -323,11 +323,11 @@ where $\psi_0$ is the limit value at $u_0 = 0$ to avoid zero-division.
 Differentiating the series term by term over interval $[a, b]$ (as implemented: one shared interval per batch) gives both analytical deltas (as in Eq. (5.6) of [Buh01]) in closed series form 
 
 $$
-\delta_t^1 = \frac{\partial u}{\partial s} = \frac{2}{b-a} \frac{1}{s}\sum_{k=0}^{N_{cos}-1}{}' \text{Re}\Big[i u_k  e^{i u_k \ln(s) + D(u_k)v}\bigl(\chi_k - K\psi_k\bigr) e^{C(u_k) - i u_k a}\Big]
+\delta_t^1 = \frac{\partial u}{\partial s} = \frac{2}{b-a} \frac{1}{s}\sum_{k=0}^{N_{cos}-1}{}' \text{Re}[i u_k  e^{i u_k \ln(s) + D(u_k)v}(\chi_k - K\psi_k) e^{C(u_k) - i u_k a}]
 $$ 
 
 $$
-\delta_t^2 = \frac{\partial_v u}{\partial_v L} = \frac{2}{b-a}\frac{1}{\partial_v L(t, v)}\sum_{k=0}^{N_{cos}-1}{}'\text{Re}\Big[D(u_k) e^{i u_k \ln(s) + D(u_k)v} \bigl(\chi_k - K\psi_k\bigr) e^{C(u_k) - i u_k a}\Big]
+\delta_t^2 = \frac{\partial_v u}{\partial_v L} = \frac{2}{b-a}\frac{1}{\partial_v L(t, v)}\sum_{k=0}^{N_{cos}-1}{}'\text{Re}[D(u_k) e^{i u_k \ln(s) + D(u_k)v} (\chi_k - K\psi_k) e^{C(u_k) - i u_k a}]
 $$ 
 
 with $\partial_v L(t,v) = \frac{1}{\kappa}\bigl(1 - e^{-\kappa \tau}\bigr)$ as variance sensitivity of the variance swap from 7.2. 
