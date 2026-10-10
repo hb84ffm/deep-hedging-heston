@@ -572,13 +572,12 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
         - compute $I^m_k=\frac{\mathrm{d}t}{2}(V^m_k+V^m_{k+1})$
         - accumulate $A^m_{k+1}=A^m_k+I^m_k$
 
-$         \ln S_{k+1}^{1,m}=\ln S_k^{1,m}+\frac{\rho}{\xi}( V_{k+1}^m-V_k^m-\kappa\theta_{par}\mathrm{d}t+\kappa I_k^m )-\frac{1}{2} I_k^m+\sqrt{(1-\rho^2)I_k^m}\ G_k^m        $ 
 
 **STOCK**:
 - for $m=1,\ldots,N$:
     - for $k=0,\ldots,n-1$:
         - draw one shock $G^m_k\sim N(0,1)$
-        - update $\ln S^{1,m}_{k+1}=\ln(S_{k}^{1,m}) + \frac{\rho}{\xi}(V^m_{k+1}-V^m_k-\kappa\theta_{par}\mathrm{d}t+\kappa I^m_k) -\frac{1}{2} I^m_k+\sqrt{(1-\rho^2)I^m_k} G^m_k$
+        - update $$\ln S^{1,m}_{k+1}=\ln(S_{k}^{1,m}) + \frac{\rho}{\xi}(V^m_{k+1}-V^m_k-\kappa\theta_{par}\mathrm{d}t+\kappa I^m_k) -\frac{1}{2} I^m_k+\sqrt{(1-\rho^2)I^m_k} G^m_k$$
         - $\ln S^{1,m}_{k+1}=\ln(S^{1,m}_{k})$
 
 **EXPONENTIATE**:
