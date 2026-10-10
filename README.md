@@ -653,9 +653,7 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
     - compare $w^\ast$ with $\widehat{\mathrm{VaR}}_\alpha$ 
     - compute the risk-adjusted price $p_0=q+J^\ast$
 
-$\widehat{\mathrm{CVaR}}_\alpha =
-  \frac{1}{\lfloor (1-\alpha)N \rfloor}
-  \sum_{i=1}^{\lfloor (1-\alpha)N \rfloor} L^{(i)}$
+compute empirical sorted CVaR, i.e. the mean of the worst $\lfloor(1-\alpha)N\rfloor$ sorted losses:  $$       \widehat{\mathrm{CVaR}}_\alpha = \frac{1}{\lfloor(1-\alpha)N\rfloor} \sum_{i=1}^{\lfloor(1-\alpha)N\rfloor}L^{(i)}  $$ 
 
 **10. Benchmarking of ML model VS analytical estimates**
 
