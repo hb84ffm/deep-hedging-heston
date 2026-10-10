@@ -413,7 +413,7 @@ The swap paths follow from the identity of Section 7.2, with the realized part a
 One dataset consists of three matrices, stock, variance and variance swap, each with $n+1$ columns and one row per scenario, plus one payoff for each scenario. The whole dataset is generated from a single seed, so the same seed reproduces bit-identical paths, which anchors the reference values of Section 6.
 ### 7.5 Deep Hedging
 
-Deep hedging solves the problem described in 7.1 by reinforcement learning techniques, where at each date $t_k$, the holdings $\delta_k$ are chosen based on observed market state (modeled by filtration $\mathbb{F} = (\mathcal{F}_{k})_{k=0,\dots,n}$, since strategies must be $\mathcal{F}_k$-measurable) and the reward is the terminal hedging error $\varepsilon$. The optimization therefore runs over sequences of arbitrary functions which span an infinite-dimensional search space that no computation can traverse directly. Two reductions make it computable.
+Deep hedging solves the problem described in 7.1 by reinforcement learning techniques, where at each date $t_k$, the holdings $\delta_k$ are chosen based on observed market state (modeled by filtration $\mathbb{F} = (\mathcal{F_{k}})_{k=0,\dots,n}$, since strategies must be $\mathcal{F}_k$-measurable) and the reward is the terminal hedging error $\varepsilon$. The optimization therefore runs over sequences of arbitrary functions which span an infinite-dimensional search space that no computation can traverse directly. Two reductions make it computable.
 
 **REDUCTION 1, THE STATE:** 
 
