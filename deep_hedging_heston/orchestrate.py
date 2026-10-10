@@ -104,7 +104,7 @@ class DeepHedger:
 
     def save_model(self, directory, name):
         """Allows you to save a trained model with specifying its name by name and the path to save the 
-        model by folderpath. writes the parameter file <name>_parameters.json (settings and learning curve) 
+        model to by directory. writes the parameter file <name>_parameters.json (settings and learning curve) 
         and the checkpoint files <name>-1.* (weights, w, batch norm statistics).
 
         - directory: folder path, created if it does not exist, e.g. "ml_models"
