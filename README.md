@@ -667,7 +667,7 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
 ## 8. Sources
 - <a id="Buh01" target="_blank" >[Buh01] Buehler, Gonon, Teichmann, Wood: *Deep Hedging*</a>(https://arxiv.org/html/1802.03042v1)
 - <a id="Buh01" href="https://arxiv.org/html/1802.03042v1" target="_blank" rel="noopener noreferrer">[Buh01] Autor: <i>Buehler, Gonon, Teichmann, Wood: *Deep Hedging*</i></a>
-- [Buh01] Buehler, Gonon, Teichmann, Wood: *Deep Hedging*, arXiv:1802.03042
+- <a id="Buh01"></a>[abc01] Autor: <a href="[https://website](https://arxiv.org/html/1802.03042v1)" target="_blank" rel="noopener noreferrer"><i>Titel</i></a>
 - [LBAK04] Andersen, Jäckel, Kahl: *Simulation of square-root processes*
 - [BroKay03] Broadie, Kaya: *Exact Simulation of Option Greeks under Stochastic Volatility*
 - [FangOosterlee08] Fang, Oosterlee: *A Novel Pricing Method for European Options Based on Fourier-Cosine Series Expansions* 
