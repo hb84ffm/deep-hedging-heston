@@ -656,7 +656,7 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
     - compare $w^\ast$ with $\widehat{\mathrm{VaR}}_\alpha$ 
     - compute the risk-adjusted price $p_0=q+J^\ast$
 
-
+- compute empirical VaR $\widehat{\mathrm{VaR}}_\alpha = \inf \lbrace x: \frac{1}{N} |\lbrace m:L^m\le x\rbrace| \ge\alpha \rbrace$ 
 **10. Benchmarking of ML model VS analytical estimates**
 
 **ANALYTICAL BENCHMARK** (on $\mathcal D^{\mathrm{val}}$):
