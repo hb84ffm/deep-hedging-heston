@@ -665,7 +665,8 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
 - report the mean, standard deviation and sorted $CVaR_\alpha$ of $\lbrace \varepsilon_{\mathrm{model}}^m \rbrace_{m=1}^{N}$
   
 ## 8. Sources
-- <a id="Buh01" target="_blank" >[Buh01] Buehler, Gonon, Teichmann, Wood: *Deep Hedging*</a>(https://arxiv.org/html/1802.03042v1) 
+- <a id="Buh01" target="_blank" >[Buh01] Buehler, Gonon, Teichmann, Wood: *Deep Hedging*</a>(https://arxiv.org/html/1802.03042v1)
+- <a id="Buh01" href="https://arxiv.org/html/1802.03042v1" target="_blank" rel="noopener noreferrer">[Buh01] Autor: <i>Buehler, Gonon, Teichmann, Wood: *Deep Hedging*</i></a>
 - [Buh01] Buehler, Gonon, Teichmann, Wood: *Deep Hedging*, arXiv:1802.03042
 - [LBAK04] Andersen, Jäckel, Kahl: *Simulation of square-root processes*
 - [BroKay03] Broadie, Kaya: *Exact Simulation of Option Greeks under Stochastic Volatility*
