@@ -171,7 +171,7 @@ The shipped model `heston_30d_alpha_50` reproduces the Heston-reference experime
 
 **Reproducibility notes:**
 - With the versions of `requirements.txt`, the shipped model reproduces the numbers exactly, but on different platform (other CPU), reproducibility holds in distribution, but not bit-by-bit.
-- The parameter JSON stores **what the model is** (weights, $w$, BatchNorm statistics), not **how it was trained**, hence learning rate, batch size, number of steps and data seeds are not saved. A freshly retrained model therefore matches distributional quantities, but not single-path values such as the seed-4 experiment.
+- The parameter JSON stores **what the model is** (weights, $w$, BatchNorm statistics), **not how it was trained**, hence learning rate, batch size, number of steps and data seeds are not saved. A freshly retrained model therefore matches distributional quantities, but not single-path values such as the seed-4 experiment.
 
 ## 7. Methodology and implementation
 
@@ -673,4 +673,3 @@ where $[\cdot]_1, [\cdot]_2$ select the first and second output component of the
 - <a id="Sey15" href="https://link.springer.com/book/10.1007/978-1-4471-7338-0" target="_blank" rel="noopener noreferrer">[Sey15] Seydel: <i>Tools for Computational Finance</i></a>
 - <a id="Hor91" href="https://www.sciencedirect.com/science/article/pii/0893608089900208" target="_blank" rel="noopener noreferrer">[Hor91] Hornik, Stinchcombe, White: <i>Multilayer feedforward networks are universal approximators</i></a>
 - <a id="KB15" href="https://arxiv.org/abs/1412.6980" target="_blank" rel="noopener noreferrer">[KB15] Kingma, Ba: <i>Adam: A Method for Stochastic Optimization</i></a>
-- <a id="Buh01"></a>[abc01] Autor: <a href="https://website" target="_blank" rel="noopener noreferrer"><em>Titel</em></a>
